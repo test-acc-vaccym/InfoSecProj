@@ -24,22 +24,18 @@ public class HomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		setContentView(R.layout.activity_home);
         
-        // get time interval shared preference
+        // Check for first run
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefEditor = sharedPref.edit();
-        if (sharedPref.contains("FirstRun")) {
-        	Log.d("settings", "CONTAINS");
-    		setContentView(R.layout.activity_home);
-        } else {
-        	Log.d("settings", "NOT CONTAINS");
-        	
+        if (!sharedPref.contains("FirstRun")) {
         	prefEditor.putBoolean("FirstRun", false);
         	prefEditor.commit();
 
             Intent tutIntent = new Intent(this, TutActivity.class);
             this.startActivity(tutIntent);
-            this.finish();
         }
 	}
 	
