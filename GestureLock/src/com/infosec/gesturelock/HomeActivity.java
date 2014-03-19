@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 
 import com.infosec.gesturelock.util.SystemUiHider;
@@ -28,10 +29,10 @@ public class HomeActivity extends Activity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefEditor = sharedPref.edit();
         if (sharedPref.contains("FirstRun")) {
-//        	Log.d("settings", "CONTAINS");
+        	Log.d("settings", "CONTAINS");
     		setContentView(R.layout.activity_home);
         } else {
-//        	Log.d("settings", "NOT CONTAINS");
+        	Log.d("settings", "NOT CONTAINS");
         	
         	prefEditor.putBoolean("FirstRun", false);
         	prefEditor.commit();
@@ -40,5 +41,10 @@ public class HomeActivity extends Activity {
             this.startActivity(tutIntent);
             this.finish();
         }
+	}
+	
+	public void instructionBtnPress(View view) {
+		Intent tutIntent = new Intent(this, TutActivity.class);
+		this.startActivity(tutIntent);
 	}
 }

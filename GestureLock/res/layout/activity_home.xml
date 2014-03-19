@@ -24,43 +24,54 @@
         android:layout_gravity="fill_horizontal" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/lockDeviceBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:minWidth="191dip"
-            android:text="@string/button" />
+            android:text="@string/lockBtn" />
 
         <Button
-            android:id="@+id/Button2"
+            android:id="@+id/unlockDeviceBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/button1"
-            android:layout_below="@+id/button1"
+            android:layout_alignLeft="@+id/lockDeviceBtn"
+            android:layout_below="@+id/lockDeviceBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
-            android:text="@string/button" />
+            android:text="@string/unlockBtn" />
 
         <Button
-            android:id="@+id/Button3"
+            android:id="@+id/setPassBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/Button2"
-            android:layout_below="@+id/Button2"
+            android:layout_alignLeft="@+id/unlockDeviceBtn"
+            android:layout_below="@+id/unlockDeviceBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
-            android:text="@string/button" />
+            android:text="@string/setPassBtn" />
 
         <Button
             android:id="@+id/Button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/Button3"
-            android:layout_below="@+id/Button3"
+            android:layout_alignLeft="@+id/setPassBtn"
+            android:layout_below="@+id/setPassBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
             android:text="@string/button" />
+
+        <Button
+            android:id="@+id/instructionBtn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/Button4"
+            android:layout_marginTop="40dp"
+            android:onClick="instructionBtnPress"
+            android:text="@string/instrBtn" />
         
     </RelativeLayout>
 
