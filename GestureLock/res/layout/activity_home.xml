@@ -67,12 +67,12 @@
 
         <Button
             android:id="@+id/instructionBtn"
-            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignLeft="@+id/Button4"
+            android:layout_alignRight="@+id/Button4"
             android:layout_below="@+id/Button4"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
             android:onClick="instructionBtnPress"
             android:text="@string/instrBtn" />
         
