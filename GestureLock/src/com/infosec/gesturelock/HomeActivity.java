@@ -28,10 +28,10 @@ public class HomeActivity extends Activity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefEditor = sharedPref.edit();
         if (sharedPref.contains("FirstRun")) {
-        	Log.d("settings", "CONTAINS");
+//        	Log.d("settings", "CONTAINS");
     		setContentView(R.layout.activity_home);
         } else {
-        	Log.d("settings", "NOT CONTAINS");
+//        	Log.d("settings", "NOT CONTAINS");
         	
         	prefEditor.putBoolean("FirstRun", false);
         	prefEditor.commit();
