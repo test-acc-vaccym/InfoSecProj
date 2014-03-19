@@ -1,11 +1,11 @@
 package com.infosec.gesturelock;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
@@ -45,8 +45,7 @@ public class TutActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	Intent mainIntent = new Intent(this, HomeActivity.class);
-        this.startActivity(mainIntent);
+        NavUtils.navigateUpFromSameTask(this);
         this.finish();
         return true;
     }
