@@ -1,0 +1,67 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/GridLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_overlay"
+    android:columnCount="1"
+    tools:context="com.infosec.gesturelock.HomeActivity" >
+
+    <ImageView
+        android:id="@+id/main_header"
+        android:layout_width="match_parent"
+        android:layout_height="195dp"
+        android:layout_column="0"
+        android:layout_gravity="left|top"
+        android:layout_row="0"
+        android:contentDescription="@string/defaultDescription"
+        android:src="@drawable/gesturelockheader" />
+
+    <RelativeLayout
+        android:id="@+id/main_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="395dp"
+        android:layout_gravity="fill_horizontal" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:minWidth="191dip"
+            android:text="@string/button" />
+
+        <Button
+            android:id="@+id/Button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button1"
+            android:layout_below="@+id/button1"
+            android:layout_marginTop="15dp"
+            android:minWidth="191dip"
+            android:text="@string/button" />
+
+        <Button
+            android:id="@+id/Button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Button2"
+            android:layout_below="@+id/Button2"
+            android:layout_marginTop="15dp"
+            android:minWidth="191dip"
+            android:text="@string/button" />
+
+        <Button
+            android:id="@+id/Button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Button3"
+            android:layout_below="@+id/Button3"
+            android:layout_marginTop="15dp"
+            android:minWidth="191dip"
+            android:text="@string/button" />
+        
+    </RelativeLayout>
+
+</GridLayout>
