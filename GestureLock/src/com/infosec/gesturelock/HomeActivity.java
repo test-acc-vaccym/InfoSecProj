@@ -42,4 +42,16 @@ public class HomeActivity extends Activity {
 		Intent tutIntent = new Intent(this, TutActivity.class);
 		this.startActivity(tutIntent);
 	}
+	
+	public void lockDeviceBtnPress(View view) {
+		
+	}
+	
+	public void unlockDeviceBtnPress(View view) {
+		
+	}
+
+	public void setPassBtnPress(View view) {
+		
+	}
 }

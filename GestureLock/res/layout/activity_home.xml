@@ -30,6 +30,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:minWidth="191dip"
+            android:onClick="lockDeviceBtnPress"
             android:text="@string/lockBtn" />
 
         <Button
@@ -40,6 +41,7 @@
             android:layout_below="@+id/lockDeviceBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
+            android:onClick="unlockDeviceBtnPress"
             android:text="@string/unlockBtn" />
 
         <Button
@@ -50,6 +52,7 @@
             android:layout_below="@+id/unlockDeviceBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
+            android:onClick="setPassBtnPress"
             android:text="@string/setPassBtn" />
 
         <Button
