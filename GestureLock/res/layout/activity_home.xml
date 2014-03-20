@@ -56,23 +56,13 @@
             android:text="@string/setPassBtn" />
 
         <Button
-            android:id="@+id/Button4"
+            android:id="@+id/instructionBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/setPassBtn"
             android:layout_below="@+id/setPassBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
-            android:text="@string/testPassBtn" />
-
-        <Button
-            android:id="@+id/instructionBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/Button4"
-            android:layout_alignRight="@+id/Button4"
-            android:layout_below="@+id/Button4"
-            android:layout_marginTop="15dp"
             android:onClick="instructionBtnPress"
             android:text="@string/instrBtn" />
         
