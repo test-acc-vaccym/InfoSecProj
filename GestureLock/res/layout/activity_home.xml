@@ -63,7 +63,7 @@
             android:layout_below="@+id/setPassBtn"
             android:layout_marginTop="15dp"
             android:minWidth="191dip"
-            android:text="@string/button" />
+            android:text="@string/testPassBtn" />
 
         <Button
             android:id="@+id/instructionBtn"
