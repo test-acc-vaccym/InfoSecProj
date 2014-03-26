@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetLockActivity extends Activity implements SensorEventListener{
 	private SensorManager mSensorManager;
@@ -31,6 +32,7 @@ public class SetLockActivity extends Activity implements SensorEventListener{
 	private TextView yAxis = null;
 	private TextView zAxis = null;
 	private TextView orient = null;
+	private TextView directionAccel = null;
 	
 	float prevX = 0.0f;
 	float prevY = 0.0f;
@@ -48,6 +50,7 @@ public class SetLockActivity extends Activity implements SensorEventListener{
 		yAxis = (TextView) this.findViewById(R.id.axisYval);
 		zAxis = (TextView) this.findViewById(R.id.axisZval);
 		orient = (TextView) this.findViewById(R.id.orientationVal);
+		directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
 		mSensorManager = (SensorManager) getSystemService(SetLockActivity.SENSOR_SERVICE);
 		
@@ -124,6 +127,9 @@ public class SetLockActivity extends Activity implements SensorEventListener{
 				xAxis.setText(Float.toString(mAcceleration[0] * 100));
 				yAxis.setText(Float.toString(mAcceleration[1] * 100));
 				zAxis.setText(Float.toString(mAcceleration[2] * 100));
+				
+				// determine the directions
+				accelerometerParser(event.values.clone());
 				break;
 			case Sensor.TYPE_GRAVITY:
 				mGravitation = event.values.clone();
@@ -196,6 +202,25 @@ public class SetLockActivity extends Activity implements SensorEventListener{
         this.finish();
 
 	    super.onBackPressed();
+	}
+	
+	// TODO: Figure out how to get only initial acceleration.
+	private void accelerometerParser(float[] input){
+		if(input[0]*100 >= 10.0f){
+//			Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
+			directionAccel.setText("Right");
+		}else if(input[0]*100 <= -10.0f){
+//			Toast.makeText(this, "Left", Toast.LENGTH_SHORT).show();
+			directionAccel.setText("Left");
+		}
+		
+		if(input[1]*100 >= 10.0f){
+//			Toast.makeText(this, "Forward", Toast.LENGTH_SHORT).show();
+			directionAccel.setText("Forward");
+		}else if(input[1]*100 <= -10.0f){
+//			Toast.makeText(this, "Backward", Toast.LENGTH_SHORT).show();
+			directionAccel.setText("Backward");
+		}
 	}
 	
 	private float[] lowPassFilter(float[] input, float[] output) {

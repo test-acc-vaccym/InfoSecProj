@@ -78,4 +78,13 @@
         android:layout_alignBottom="@+id/orientationlbl"
         android:layout_toRightOf="@+id/orientationlbl" />
 
+    <TextView
+        android:id="@+id/directionlbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orientationVal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="79dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
