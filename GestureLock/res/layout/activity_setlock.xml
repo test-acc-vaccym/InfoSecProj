@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/testBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:minWidth="256dip"
+        android:text="@string/testBtn" />
+
+    <TextView
+        android:id="@+id/axisXlbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/testBtn"
+        android:layout_below="@+id/testBtn"
+        android:layout_marginTop="30dp"
+        android:text="@string/axisXlbl" />
+
+    <TextView
+        android:id="@+id/axisYlbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/axisXlbl"
+        android:layout_below="@+id/axisXlbl"
+        android:text="@string/axisYlbl" />
+
+    <TextView
+        android:id="@+id/axisZlbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/axisYlbl"
+        android:layout_below="@+id/axisYlbl"
+        android:text="@string/axisZlbl" />
+
+    <TextView
+        android:id="@+id/axisXval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/axisYval"
+        android:layout_toRightOf="@+id/axisXlbl"
+        android:text="@string/defaultString" />
+
+    <TextView
+        android:id="@+id/axisYval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/axisZlbl"
+        android:layout_toRightOf="@+id/axisYlbl"
+        android:text="@string/defaultString" />
+
+    <TextView
+        android:id="@+id/axisZval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/axisYlbl"
+        android:layout_toRightOf="@+id/axisYlbl"
+        android:text="@string/defaultString" />
+
+    <TextView
+        android:id="@+id/orientationlbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/axisZlbl"
+        android:layout_below="@+id/axisZlbl"
+        android:text="@string/orientation" />
+
+    <TextView
+        android:id="@+id/orientationVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/orientationlbl"
+        android:layout_alignBottom="@+id/orientationlbl"
+        android:layout_toRightOf="@+id/orientationlbl" />
+
+</RelativeLayout>
