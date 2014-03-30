@@ -24,16 +24,6 @@
         android:layout_gravity="fill_horizontal" >
 
         <Button
-            android:id="@+id/lockDeviceBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:minWidth="191dip"
-            android:onClick="lockDeviceBtnPress"
-            android:text="Set Password" />
-
-        <Button
             android:id="@+id/setPassBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +44,16 @@
             android:minWidth="191dip"
             android:onClick="instructionBtnPress"
             android:text="@string/instrBtn" />
+
+        <Button
+            android:id="@+id/lockDeviceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:minWidth="191dip"
+            android:onClick="lockDeviceBtnPress"
+            android:text="Set Password" />
         
     </RelativeLayout>
 

@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.infosec.gesturelock.SetLockActivity"
+            android:name="com.infosec.gesturelock.SetPassword"
             android:label="@string/title_activity_wii_gee"
             android:parentActivityName="com.infosec.gesturelock.HomeActivity"
             android:screenOrientation="portrait" >

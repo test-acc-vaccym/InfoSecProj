@@ -15,7 +15,7 @@ import android.view.View.OnTouchListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SetLockActivity extends Activity implements SensorEventListener{
+public class SetPassword extends Activity implements SensorEventListener{
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private Sensor mGravity;
@@ -44,7 +44,7 @@ public class SetLockActivity extends Activity implements SensorEventListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_setlock);
+		setContentView(R.layout.activity_setpassword);
 
 		xAxis = (TextView) this.findViewById(R.id.axisXval);
 		yAxis = (TextView) this.findViewById(R.id.axisYval);
@@ -52,7 +52,7 @@ public class SetLockActivity extends Activity implements SensorEventListener{
 		orient = (TextView) this.findViewById(R.id.orientationVal);
 		directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
-		mSensorManager = (SensorManager) getSystemService(SetLockActivity.SENSOR_SERVICE);
+		mSensorManager = (SensorManager) getSystemService(SetPassword.SENSOR_SERVICE);
 		
 		if(mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
 			mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
