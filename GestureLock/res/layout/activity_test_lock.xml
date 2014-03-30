@@ -1,0 +1,77 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/GridLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_overlay"
+    android:columnCount="1"
+    tools:context="com.infosec.gesturelock.HomeActivity" >
+
+    <RelativeLayout
+        android:id="@+id/main_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_horizontal"
+        android:paddingLeft="6 dps" >
+
+        <Button
+            android:id="@+id/lockDeviceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:minWidth="191dip"
+            android:onClick="lockDeviceBtnPress"
+            android:text="Start Test" />
+
+        <Button
+            android:id="@+id/setPassBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="72dp"
+            android:minWidth="191dip"
+            android:onClick="setPassBtnPress"
+            android:text="&lt;-- Go back" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/lockDeviceBtn"
+            android:layout_alignRight="@+id/lockDeviceBtn"
+            android:layout_below="@+id/lockDeviceBtn"
+            android:layout_marginTop="23dp"
+            android:text="Press Start Test to practice unlocking with your password."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <android.widget.ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/unlock" />
+
+        <android.widget.ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/unlock" />
+
+        <android.widget.ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"
+            android:src="@drawable/unlock" />
+        
+    </RelativeLayout>
+
+</GridLayout>
