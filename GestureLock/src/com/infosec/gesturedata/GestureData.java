@@ -71,30 +71,22 @@ public class GestureData {
 	 */
 	private void calculatePosition() {
 		ArrayList<Point> averages = getAverages();
-		ArrayList<Point> distances = new ArrayList<Point>();
 		float widthInSec = this.width/1000000000.0f;
-		this.finalPosition = new Point(0, 0, 0);
+		float vx, vy, vz;
+		float dx, dy, dz;
+		vx = vy = vz = dx = dy = dz = 0;
 		
-		for (Point p : averages) {
-			float velX = p.x * widthInSec;
-			float velY = p.y * widthInSec;
-			float velZ = p.z * widthInSec;
+		for (int i =1; i < averages.size(); i++) {
+			vx += averages.get(i-1).x + averages.get(i).x * widthInSec;
+			vy += averages.get(i-1).y + averages.get(i).y * widthInSec;
+			vz += averages.get(i-1).z + averages.get(i).z * widthInSec;
 
-			float distX = velX * widthInSec + (p.x * (float) Math.pow(widthInSec, 2));
-			float distY = velY * widthInSec + (p.y * (float) Math.pow(widthInSec, 2));
-			float distZ = velZ * widthInSec + (p.z * (float) Math.pow(widthInSec, 2));
-
-			Point dist = new Point(distX, distY, distZ);
-			distances.add(dist);
+			dx += vx * widthInSec;
+			dy += vy * widthInSec;
+			dz += vz * widthInSec;
 		}
-
-		for (Point p : distances) {
-			float newX = this.finalPosition.x + p.x;
-			float newY = this.finalPosition.y + p.y;
-			float newZ = this.finalPosition.z + p.z;
-
-			this.finalPosition.set(newX, newY, newZ);
-		}
+			this.finalPosition = new Point(dx, dy, dz);
+		
 	}
 
 	/* Returns an array list of points where each point is
