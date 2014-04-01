@@ -1,9 +1,5 @@
 package com.infosec.gesturedata;
 
-import java.io.FileInputStream;
-
-import android.content.Context;
-
 public class AccelEvent {
 
 	
@@ -20,7 +16,6 @@ public class AccelEvent {
 		this.yAccel = y;
 		this.zAccel = z;
 		this.time = System.nanoTime();
-		
 	}
 	
 	public float getX() {
@@ -33,5 +28,9 @@ public class AccelEvent {
 	
 	public float getZ() {
 		return this.zAccel;
+	}
+	
+	public long getTime() {
+		return this.time;
 	}
 }
