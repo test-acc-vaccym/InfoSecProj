@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.infosec.gesturedata.AccelEvent;
 import com.infosec.gesturedata.GestureData;
 
-public class SetPassword extends Activity implements SensorEventListener{
+public class SetPasswordActivity extends Activity implements SensorEventListener{
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private Sensor mGravity;
@@ -60,7 +60,7 @@ public class SetPassword extends Activity implements SensorEventListener{
 		this.orient = (TextView) this.findViewById(R.id.orientationVal);
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
-		this.mSensorManager = (SensorManager) getSystemService(SetPassword.SENSOR_SERVICE);
+		this.mSensorManager = (SensorManager) getSystemService(SetPasswordActivity.SENSOR_SERVICE);
 		
 		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
 			this.mAccelerometer = this.mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);

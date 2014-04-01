@@ -49,7 +49,7 @@ public class HomeActivity extends Activity {
 	}
 
 	public void setPassBtnPress(View view) {
-		Intent setLockIntent = new Intent(this, SetPassword.class);
+		Intent setLockIntent = new Intent(this, SetPasswordActivity.class);
 		this.startActivity(setLockIntent);
 	}
 	
