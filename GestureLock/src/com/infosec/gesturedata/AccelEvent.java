@@ -25,4 +25,8 @@ public class AccelEvent {
 	public float getZ() {
 		return this.zAccel;
 	}
+	
+	public float getTime() {
+		return this.time;
+	}
 }
