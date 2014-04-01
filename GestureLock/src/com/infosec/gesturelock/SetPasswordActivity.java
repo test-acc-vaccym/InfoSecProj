@@ -27,8 +27,6 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	private Sensor mGyroscope;
 	
 	
-	static final float ALPHA = 0.20f;
-	
 	private float[] mAcceleration = null;
 //	private float[] mGravitation = null;
 //	private float[] mGeomagnetic = null;
@@ -236,15 +234,4 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		}
 	}
 	
-	private float[] lowPassFilter(float[] input, float[] output) {
-		if (output == null) {
-			return input;     
-		}
-	    
-	    for (int i=0; i<input.length; i++) {
-	    	output[i] = output[i] + ALPHA * (input[i] - output[i]);
-	    }
-	    
-	   	return output;
-	}
 }

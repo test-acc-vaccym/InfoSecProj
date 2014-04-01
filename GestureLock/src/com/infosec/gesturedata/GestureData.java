@@ -5,11 +5,32 @@ public class GestureData {
 
 	private ArrayList<AccelEvent> data;
 	private Point finalPosition;
-
-	public GestureData(ArrayList<AccelEvent> data) {
-		this.data = data;
-	}
+	private Long lastEventTime;
+	private Long currentTime;
 	
+	static final float ALPHA = 0.20f;
+	
+	public GestureData(ArrayList<AccelEvent> data) {
+		this.data = lowPassFilter(data);
+	}
+
+
+	private ArrayList<AccelEvent> lowPassFilter(ArrayList<AccelEvent>input) {
+
+		ArrayList<AccelEvent> output = new ArrayList<AccelEvent>();
+		
+		for (int i = 1; i < input.size();i++) {
+			AccelEvent current = input.get(i);
+			AccelEvent previous = input.get(i-1);
+			output.add(new AccelEvent(
+					current.getX()+ ALPHA * (current.getX() - previous.getX()),
+					current.getY()+ ALPHA * (current.getY() - previous.getY()),
+					current.getZ()+ ALPHA * (current.getZ() - previous.getZ())
+					));
+		}
+
+		return output;
+	}
 
 	/* Returns a point that represents the final ending 
 	 * position after all data is parsed
@@ -23,10 +44,12 @@ public class GestureData {
 	 */
 	private ArrayList<Point> getAverages() {
 		ArrayList<Point> averages = new ArrayList<Point>();
-
+		Long width = new Long(100000000);
 		// TODO
 		// This method should call calcAverageOfInterval(start, end)
+		for(AccelEvent event:data) {
 
+		}
 		return averages;
 	}
 

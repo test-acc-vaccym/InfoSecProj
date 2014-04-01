@@ -11,6 +11,8 @@ public class AccelEvent {
 	private float zAccel;
 	private long time;
 	
+	public AccelEvent() {
+	}
 	public AccelEvent(float x, float y, float z) {
 		this.xAccel = x;
 		this.yAccel = y;
