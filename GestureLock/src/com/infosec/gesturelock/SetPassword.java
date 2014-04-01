@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SetPassword extends Activity implements SensorEventListener{
 	private SensorManager mSensorManager;
@@ -206,20 +205,26 @@ public class SetPassword extends Activity implements SensorEventListener{
 	
 	// TODO: Figure out how to get only initial acceleration.
 	private void accelerometerParser(float[] input){
-		if(input[0]*100 >= 10.0f){
+		if(input[0]*100 >= 15.0f){
 //			Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Right");
-		}else if(input[0]*100 <= -10.0f){
+		}else if(input[0]*100 <= -15.0f){
 //			Toast.makeText(this, "Left", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Left");
 		}
 		
-		if(input[1]*100 >= 10.0f){
+		if(input[1]*100 >= 13.0f){
 //			Toast.makeText(this, "Forward", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Forward");
-		}else if(input[1]*100 <= -10.0f){
+		}else if(input[1]*100 <= -13.0f){
 //			Toast.makeText(this, "Backward", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Backward");
+		}
+		
+		if(input[2]*100 >= 15.0f){
+			directionAccel.setText("Zenith (Up)");
+		}else if(input[2]*100 <= -15.0f){
+			directionAccel.setText("Nadir (Down)");
 		}
 	}
 	
