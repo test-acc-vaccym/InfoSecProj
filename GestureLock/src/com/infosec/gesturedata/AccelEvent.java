@@ -33,4 +33,21 @@ public class AccelEvent {
 	public long getTime() {
 		return this.time;
 	}
+
+	public void setX(float xAccel) {
+		this.xAccel = xAccel;
+	}
+	
+	public void setY(float yAccel) {
+		this.yAccel = yAccel;
+	}
+	
+	public void setZ(float zAccel) {
+		this.zAccel = zAccel;
+	}
+	
+	public void setTime(long time) {
+		this.time = time;
+	}
+	
 }
