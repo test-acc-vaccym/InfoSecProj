@@ -29,4 +29,8 @@ public class AccelEvent {
 	public long getTime() {
 		return this.time;
 	}
+	
+	public void setTime(long t) {
+		this.time = t;
+	}
 }
