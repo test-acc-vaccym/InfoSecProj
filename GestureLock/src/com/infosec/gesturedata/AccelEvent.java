@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import android.content.Context;
 
 public class AccelEvent {
+
 	
+	static final float ALPHA = 0.20f;
 	private float xAccel;
 	private float yAccel;
 	private float zAccel;
