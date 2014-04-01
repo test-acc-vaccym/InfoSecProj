@@ -111,11 +111,13 @@ public class GestureData {
 				end ++;
 			} else {
 				averages.add(calcAverageOfInterval(start, end));
-				start = end + 1; 
+				startTime +=this.width;
+				start = end;
+				end++;
 			}
 		}
 
-		if (start == end + 1) {
+		if (start == end) {
 			averages.add(new Point(
 					data.get(data.size()-1).getX(), 
 					data.get(data.size()-1).getY(), 

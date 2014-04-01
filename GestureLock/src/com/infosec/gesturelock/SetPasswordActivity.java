@@ -214,8 +214,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	}
 
 	private boolean existingPass(){
-		// Check for existing password
-		
+		// Check for existing password		
 		return false;
 	}
 	
