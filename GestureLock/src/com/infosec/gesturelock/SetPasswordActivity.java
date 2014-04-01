@@ -1,5 +1,7 @@
 package com.infosec.gesturelock;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -14,18 +16,23 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
-public class SetPassword extends Activity implements SensorEventListener{
+import com.infosec.gesturedata.AccelEvent;
+import com.infosec.gesturedata.GestureData;
+
+public class SetPasswordActivity extends Activity implements SensorEventListener{
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private Sensor mGravity;
 	private Sensor mMagnetometer;
 	private Sensor mGyroscope;
 	
+	
 	static final float ALPHA = 0.20f;
 	
 	private float[] mAcceleration = null;
-	private float[] mGravitation = null;
-	private float[] mGeomagnetic = null;
+//	private float[] mGravitation = null;
+//	private float[] mGeomagnetic = null;
+	private ArrayList<AccelEvent> accelData = null;
 	  
 	private TextView xAxis = null;
 	private TextView yAxis = null;
@@ -44,35 +51,37 @@ public class SetPassword extends Activity implements SensorEventListener{
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_setpassword);
-
-		xAxis = (TextView) this.findViewById(R.id.axisXval);
-		yAxis = (TextView) this.findViewById(R.id.axisYval);
-		zAxis = (TextView) this.findViewById(R.id.axisZval);
-		orient = (TextView) this.findViewById(R.id.orientationVal);
-		directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
-		mSensorManager = (SensorManager) getSystemService(SetPassword.SENSOR_SERVICE);
+		this.accelData = new ArrayList<AccelEvent>();
 		
-		if(mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
-			mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		this.xAxis = (TextView) this.findViewById(R.id.axisXval);
+		this.yAxis = (TextView) this.findViewById(R.id.axisYval);
+		this.zAxis = (TextView) this.findViewById(R.id.axisZval);
+		this.orient = (TextView) this.findViewById(R.id.orientationVal);
+		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
+		
+		this.mSensorManager = (SensorManager) getSystemService(SetPasswordActivity.SENSOR_SERVICE);
+		
+		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
+			this.mAccelerometer = this.mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		}
 
-		if(mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null){
-			mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-		}
+//		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null){
+//			this.mGravity = this.mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+//		}
+//		
+//		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
+//			this.mMagnetometer = this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+//		}
+//		
+//		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
+//			this.mGyroscope = this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+//		}
 		
-		if(mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
-			mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		}
-		
-		if(mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
-			mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		}
-		
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+		this.mSensorManager.registerListener(this, this.mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+//		this.mSensorManager.registerListener(this, this.mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+//		this.mSensorManager.registerListener(this, this.mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+//		this.mSensorManager.registerListener(this, this.mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
 		
 		final TextView testButton = (TextView) this.findViewById(R.id.testBtn);
 		
@@ -84,12 +93,15 @@ public class SetPassword extends Activity implements SensorEventListener{
 					case MotionEvent.ACTION_DOWN:
 						testButton.setText("Accessing Accelerometer");
 						testButton.setBackgroundColor(Color.RED);
-//						btnDown = true;
+						accelData.clear();
+						btnDown = true;
 						break;
 					case MotionEvent.ACTION_UP:
 						testButton.setText("tacocat");
 						testButton.setBackgroundColor(Color.LTGRAY);
-//						btnDown = false;
+						orient.setText(Integer.toString(accelData.size()));
+						HomeActivity.gestureData = new GestureData(accelData);
+						btnDown = false;
 						break;
 					default:
 						break;
@@ -102,10 +114,10 @@ public class SetPassword extends Activity implements SensorEventListener{
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_FASTEST);
-		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+//		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
+//		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_FASTEST);
+//		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
 	}
 	 
 	@Override
@@ -121,52 +133,51 @@ public class SetPassword extends Activity implements SensorEventListener{
         
 		switch(type){
 			case Sensor.TYPE_LINEAR_ACCELERATION:
-				mAcceleration = lowPassFilter(event.values.clone(), mAcceleration);
+				this.mAcceleration = lowPassFilter(event.values.clone(), this.mAcceleration);
 				
-				xAxis.setText(Float.toString(mAcceleration[0] * 100));
-				yAxis.setText(Float.toString(mAcceleration[1] * 100));
-				zAxis.setText(Float.toString(mAcceleration[2] * 100));
+				xAxis.setText(Float.toString(this.mAcceleration[0] * 100));
+				yAxis.setText(Float.toString(this.mAcceleration[1] * 100));
+				zAxis.setText(Float.toString(this.mAcceleration[2] * 100));
+				
+				if(this.btnDown){
+					AccelEvent dataPoint = new AccelEvent(event.values[0], event.values[1], event.values[2]);
+					this.accelData.add(dataPoint);
+				}
 				
 				// determine the directions
-				accelerometerParser(event.values.clone());
+//				accelerometerParser(mAcceleration);
 				break;
-			case Sensor.TYPE_GRAVITY:
-				mGravitation = event.values.clone();
-				break;
-			case Sensor.TYPE_MAGNETIC_FIELD:
-				mGeomagnetic = event.values.clone();
-				break;
-			case Sensor.TYPE_GYROSCOPE:
-				
-				break;
+//			case Sensor.TYPE_GRAVITY:
+////				mGravitation = event.values.clone();
+//				break;
+//			case Sensor.TYPE_MAGNETIC_FIELD:
+////				mGeomagnetic = event.values.clone();
+//				break;
 			default:
 				break;
 		}
 		
-	    if (mGravitation != null && mGeomagnetic != null) {
-	        float R[] = new float[9];
-	        float I[] = new float[9];
-	        boolean success = SensorManager.getRotationMatrix(R, I, mGravitation, mGeomagnetic);
-	        if (success) {
-	            float orientation[] = new float[3];
-	            SensorManager.getOrientation(R, orientation);   
-
-	            float azimuthInDegrees = ((float) Math.toDegrees(orientation[0]) + 360) % 360;
-
-	            if(btnDown){
-//	            	xAxis.setText(Float.toString(mAcceleration[0]));
-//					yAxis.setText(Float.toString(mAcceleration[1]));
-//					zAxis.setText(Float.toString(mAcceleration[2]));
-					orient.setText(Float.toString(azimuthInDegrees));
-	            }
-	        }
-	    }
+//	    if (mGravitation != null && mGeomagnetic != null) {
+//	        float R[] = new float[9];
+//	        float I[] = new float[9];
+//	        boolean success = SensorManager.getRotationMatrix(R, I, mGravitation, mGeomagnetic);
+//	        if (success) {
+//	            float orientation[] = new float[3];
+//	            SensorManager.getOrientation(R, orientation);   
+//
+//	            float azimuthInDegrees = ((float) Math.toDegrees(orientation[0]) + 360) % 360;
+//
+//				orient.setText(Float.toString(azimuthInDegrees));
+//	            if(btnDown){
+//	            	
+//	            }
+//	        }
+//	    }
 	}
 	
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	/*
@@ -192,9 +203,6 @@ public class SetPassword extends Activity implements SensorEventListener{
 	
 	@Override
 	public void onBackPressed() {
-//		mSensorManager.unregisterListener(this, mAccelerometer);
-//		mSensorManager.unregisterListener(this, mMagnetometer);
-
 		mSensorManager.unregisterListener(this);
 		
         NavUtils.navigateUpFromSameTask(this);
