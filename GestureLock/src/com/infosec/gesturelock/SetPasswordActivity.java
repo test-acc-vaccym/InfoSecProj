@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.infosec.gesturedata.AccelEvent;
 import com.infosec.gesturedata.GestureData;
+import com.infosec.gesturedata.Point;
 
 public class SetPasswordActivity extends Activity implements SensorEventListener{
 	private GestureData gestureDataSampleOne = null;
@@ -40,6 +41,8 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	
 	private TextView setPassInstr = null;
 	private TextView directionAccel = null;
+	private TextView posOne = null;
+	private TextView posTwo = null;
 	private Button tacocatBtn = null;
 	
 	float prevX = 0.0f;
@@ -59,6 +62,8 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		
 		this.setPassInstr = (TextView) this.findViewById(R.id.setPassInstruction);
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
+		this.posOne = (TextView) this.findViewById(R.id.SamplePosOne);
+		this.posTwo = (TextView) this.findViewById(R.id.SamplePosTwo);
 		
 		if(existingPass()){
 			this.setPassInstr.setText("Enter your existing password");
@@ -230,6 +235,10 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 			}else{
 				tacocatBtn.setEnabled(false);
 				setPassInstr.setText("Thinking...");
+				Point gestureOne = gestureDataSampleOne.getPosition();
+				Point gestureTwo = gestureDataSampleTwo.getPosition();
+				posOne.setText("(" + Float.toString(gestureOne.x) + ", " + Float.toString(gestureOne.y) + ", " + Float.toString(gestureOne.z) + ")");
+				posOne.setText("(" + Float.toString(gestureTwo.x) + ", " + Float.toString(gestureTwo.y) + ", " + Float.toString(gestureTwo.z) + ")");
 			}
 		}
 	}
