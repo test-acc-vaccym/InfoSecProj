@@ -62,6 +62,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		
 		this.setPassInstr = (TextView) this.findViewById(R.id.setPassInstruction);
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
+		
 		this.posOne = (TextView) this.findViewById(R.id.posOneVal);
 		this.posTwo = (TextView) this.findViewById(R.id.posTwoVal);
 		
@@ -236,8 +237,9 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 				setPassInstr.setText("Thinking...");
 				Point gestureOne = gestureDataSampleOne.getPosition();
 				Point gestureTwo = gestureDataSampleTwo.getPosition();
-				posOne.setText("(" + Float.toString(gestureOne.x) + ", " + Float.toString(gestureOne.y) + ", " + Float.toString(gestureOne.z) + ")");
-				posTwo.setText("(" + Float.toString(gestureTwo.x) + ", " + Float.toString(gestureTwo.y) + ", " + Float.toString(gestureTwo.z) + ")");
+				
+				posOne.setText("(" + Float.toString(gestureOne.x * 100.0f) + ", " + Float.toString(gestureOne.y * 100.0f) + ", " + Float.toString(gestureOne.z * 100.0f) + ")");
+				posTwo.setText("(" + Float.toString(gestureTwo.x * 100.0f) + ", " + Float.toString(gestureTwo.y * 100.0f) + ", " + Float.toString(gestureTwo.z * 100.0f) + ")");
 			}
 		}
 	}
