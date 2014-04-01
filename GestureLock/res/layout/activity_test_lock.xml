@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="fill_horizontal"
-        android:paddingLeft="6 dps" >
+        android:paddingLeft="6dp" >
 
         <Button
             android:id="@+id/lockDeviceBtn"
