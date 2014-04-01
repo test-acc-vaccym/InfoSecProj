@@ -14,17 +14,21 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.infosec.gesturedata.AccelEvent;
 import com.infosec.gesturedata.GestureData;
 
 public class SetPasswordActivity extends Activity implements SensorEventListener{
+	private GestureData gestureDataSampleOne = null;
+	private GestureData gestureDataSampleTwo = null;
+	
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
-	private Sensor mGravity;
-	private Sensor mMagnetometer;
-	private Sensor mGyroscope;
+//	private Sensor mGravity;
+//	private Sensor mMagnetometer;
+//	private Sensor mGyroscope;
 	
 	
 	static final float ALPHA = 0.20f;
@@ -33,18 +37,17 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 //	private float[] mGravitation = null;
 //	private float[] mGeomagnetic = null;
 	private ArrayList<AccelEvent> accelData = null;
-	  
-	private TextView xAxis = null;
-	private TextView yAxis = null;
-	private TextView zAxis = null;
-	private TextView orient = null;
+	
+	private TextView setPassInstr = null;
 	private TextView directionAccel = null;
+	private Button tacocatBtn = null;
 	
 	float prevX = 0.0f;
 	float prevY = 0.0f;
 	float prevZ = 0.0f;
 	
 	boolean btnDown = true;
+	boolean firstSampleCompleted = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +57,14 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		
 		this.accelData = new ArrayList<AccelEvent>();
 		
-		this.xAxis = (TextView) this.findViewById(R.id.axisXval);
-		this.yAxis = (TextView) this.findViewById(R.id.axisYval);
-		this.zAxis = (TextView) this.findViewById(R.id.axisZval);
-		this.orient = (TextView) this.findViewById(R.id.orientationVal);
+		this.setPassInstr = (TextView) this.findViewById(R.id.setPassInstruction);
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
+		
+		if(existingPass()){
+			this.setPassInstr.setText("Enter your existing password");
+		}else{
+			this.setPassInstr.setText("Set new gesture password. Press and hold the tacocat button to record your new gesture password.");
+		}
 		
 		this.mSensorManager = (SensorManager) getSystemService(SetPasswordActivity.SENSOR_SERVICE);
 		
@@ -83,7 +89,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 //		this.mSensorManager.registerListener(this, this.mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 //		this.mSensorManager.registerListener(this, this.mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
 		
-		final TextView testButton = (TextView) this.findViewById(R.id.testBtn);
+		tacocatBtn = (Button) this.findViewById(R.id.testBtn);
 		
 		findViewById(R.id.testBtn).setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -91,17 +97,15 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 				
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
-						testButton.setText("Accessing Accelerometer");
-						testButton.setBackgroundColor(Color.RED);
+						tacocatBtn.setText("Accessing Accelerometer");
+						tacocatBtn.setBackgroundColor(Color.RED);
 						accelData.clear();
 						btnDown = true;
 						break;
 					case MotionEvent.ACTION_UP:
-						testButton.setText("tacocat");
-						testButton.setBackgroundColor(Color.LTGRAY);
-						orient.setText(Integer.toString(accelData.size()));
-						HomeActivity.gestureData = new GestureData(accelData);
-						btnDown = false;
+						tacocatBtn.setText("tacocat");
+						tacocatBtn.setBackgroundColor(Color.LTGRAY);
+						onTacocatRelease();
 						break;
 					default:
 						break;
@@ -133,18 +137,11 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
         
 		switch(type){
 			case Sensor.TYPE_LINEAR_ACCELERATION:
-				this.mAcceleration = lowPassFilter(event.values.clone(), this.mAcceleration);
-				
-				xAxis.setText(Float.toString(this.mAcceleration[0] * 100));
-				yAxis.setText(Float.toString(this.mAcceleration[1] * 100));
-				zAxis.setText(Float.toString(this.mAcceleration[2] * 100));
-				
 				if(this.btnDown){
 					AccelEvent dataPoint = new AccelEvent(event.values[0], event.values[1], event.values[2]);
 					this.accelData.add(dataPoint);
 				}
 				
-				// determine the directions
 //				accelerometerParser(mAcceleration);
 				break;
 //			case Sensor.TYPE_GRAVITY:
@@ -210,22 +207,43 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 
 	    super.onBackPressed();
 	}
+
+	private boolean existingPass(){
+		// Check for existing password
+		
+		return false;
+	}
 	
-	// TODO: Figure out how to get only initial acceleration.
+	private void onTacocatRelease(){
+		if(!firstSampleCompleted){
+			gestureDataSampleOne = new GestureData(accelData);
+			setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
+			firstSampleCompleted = true;
+			btnDown = false;
+		}else{
+			gestureDataSampleTwo = new GestureData(accelData);
+			btnDown = false;
+			if(gestureDataSampleOne == null || gestureDataSampleTwo == null){
+				setPassInstr.setText("Error: Please reenter your password");
+				firstSampleCompleted = false;
+			}else{
+				tacocatBtn.setEnabled(false);
+				setPassInstr.setText("Thinking...");
+			}
+		}
+	}
+	
+	/*
 	private void accelerometerParser(float[] input){
 		if(input[0]*100 >= 15.0f){
-//			Toast.makeText(this, "Right", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Right");
 		}else if(input[0]*100 <= -15.0f){
-//			Toast.makeText(this, "Left", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Left");
 		}
 		
 		if(input[1]*100 >= 13.0f){
-//			Toast.makeText(this, "Forward", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Forward");
 		}else if(input[1]*100 <= -13.0f){
-//			Toast.makeText(this, "Backward", Toast.LENGTH_SHORT).show();
 			directionAccel.setText("Backward");
 		}
 		
@@ -234,17 +252,5 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		}else if(input[2]*100 <= -15.0f){
 			directionAccel.setText("Nadir (Down)");
 		}
-	}
-	
-	private float[] lowPassFilter(float[] input, float[] output) {
-		if (output == null) {
-			return input;     
-		}
-	    
-	    for (int i=0; i<input.length; i++) {
-	    	output[i] = output[i] + ALPHA * (input[i] - output[i]);
-	    }
-	    
-	   	return output;
-	}
+	} */
 }
