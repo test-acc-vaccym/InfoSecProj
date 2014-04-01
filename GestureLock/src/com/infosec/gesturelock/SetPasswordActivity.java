@@ -215,6 +215,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	}
 	
 	private void onTacocatRelease(){
+		//RUN AWAY!!!!!
 		if(!firstSampleCompleted){
 			gestureDataSampleOne = new GestureData(accelData);
 			setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");

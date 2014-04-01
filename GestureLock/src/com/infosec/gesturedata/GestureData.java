@@ -4,9 +4,11 @@ import java.util.ArrayList;
 public class GestureData {
 
 	private ArrayList<AccelEvent> data;
+	
+	
 	private Point finalPosition;
 	private long width = 100000000;
-	
+
 
 	static final float ALPHA = 0.20f;
 
@@ -50,7 +52,7 @@ public class GestureData {
 
 		return output;
 	}
-	
+
 	/* Normalizes the data arraylist by setting the timestamp
 	 * of the first element to 0.  Then, the new timestamp for each
 	 * following element will be the event's original timestamp less
@@ -58,13 +60,12 @@ public class GestureData {
 	 */
 	private void normalizeData() {
 		long base = data.get(0).getTime();
-		data.get(0).setTime(0);
-		
+
 		for (AccelEvent event : this.data) {
 			event.setTime(event.getTime() - base);
 		}
 	}
-	
+
 	/* Using the averages of the intervals, calculates the final
 	 * ending point and stores it in this.finalPosition
 	 */
@@ -72,37 +73,37 @@ public class GestureData {
 		ArrayList<Point> averages = getAverages();
 		ArrayList<Point> distances = new ArrayList<Point>();
 		float widthInSec = this.width/1000000000.0f;
-		
+
 		for (Point p : averages) {
 			float velX = p.x * widthInSec;
 			float velY = p.y * widthInSec;
 			float velZ = p.z * widthInSec;
-			
+
 			float distX = velX * widthInSec + (p.x * (float) Math.pow(widthInSec, 2));
 			float distY = velY * widthInSec + (p.y * (float) Math.pow(widthInSec, 2));
 			float distZ = velZ * widthInSec + (p.z * (float) Math.pow(widthInSec, 2));
-			
+
 			Point dist = new Point(distX, distY, distZ);
 			distances.add(dist);
 		}
-		
+
 		for (Point p : distances) {
 			float newX = this.finalPosition.x + p.x;
 			float newY = this.finalPosition.y + p.y;
 			float newZ = this.finalPosition.z + p.z;
-			
+
 			this.finalPosition.set(newX, newY, newZ);
 		}
 	}
-	
+
 	/* Returns an array list of points where each point is
 	 * the average of one time interval
 	 */
 	private ArrayList<Point> getAverages()	{	
 		ArrayList<Point> averages = new ArrayList<Point>();
-		long startTime = this.data.get(0).getTime();
+		long startTime = 0;
 		int start = 0;
-		int end = 0;
+		int end = 1;
 		// TODO
 		// This method should call calcAverageOfInterval(start, end)
 		for(AccelEvent event:data) {
@@ -112,9 +113,13 @@ public class GestureData {
 				averages.add(calcAverageOfInterval(start, end));
 				start = end + 1; 
 			}
-			if (start == end + 1) {
-				averages.add(new Point(event.getX(), event.getY(), event.getZ()));
-			}
+		}
+
+		if (start == end + 1) {
+			averages.add(new Point(
+					data.get(data.size()-1).getX(), 
+					data.get(data.size()-1).getY(), 
+					data.get(data.size()-1).getZ()));
 		}
 		return averages;
 	}
@@ -129,7 +134,7 @@ public class GestureData {
 		int ySum = 0;
 		int zSum = 0;
 		int numOfPoints = 0;
-		
+
 		for (int i = start; i < end; i++) {
 			AccelEvent event = data.get(i);
 			xSum += event.getX();
