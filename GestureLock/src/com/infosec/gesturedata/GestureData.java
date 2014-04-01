@@ -7,6 +7,7 @@ public class GestureData {
 
 	public GestureData(ArrayList<AccelEvent> data) {
 		this.data = data;
+		//for initial commit
 	}
 	
 	
