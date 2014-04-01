@@ -5,16 +5,27 @@ public class GestureData {
 
 	private ArrayList<AccelEvent> data;
 	private Point finalPosition;
+	private long width = 100000000;
+	
 
 	static final float ALPHA = 0.20f;
 
-	public GestureData(ArrayList<AccelEvent> data) {
-		this.data = data;
+	public GestureData(ArrayList<AccelEvent> events) {
+		this.data = lowPassFilter(events);
 		normalizeData();
-		this.data = lowPassFilter(data);
+		calculatePosition();
 	}
 
+	/* Returns a point that represents the final ending 
+	 * position after all data is parsed
+	 */
+	public Point getPosition() {
+		return this.finalPosition;
+	}
 
+	/*
+	 * 
+	 */
 	private ArrayList<AccelEvent> lowPassFilter(ArrayList<AccelEvent>input) {
 
 		if (input == null){
@@ -39,13 +50,6 @@ public class GestureData {
 
 		return output;
 	}
-
-	/* Returns a point that represents the final ending 
-	 * position after all data is parsed
-	 */
-	public Point getPosition() {
-		return this.finalPosition;
-	}
 	
 	/* Normalizes the data arraylist by setting the timestamp
 	 * of the first element to 0.  Then, the new timestamp for each
@@ -61,19 +65,48 @@ public class GestureData {
 		}
 	}
 	
+	/* Using the averages of the intervals, calculates the final
+	 * ending point and stores it in this.finalPosition
+	 */
+	private void calculatePosition() {
+		ArrayList<Point> averages = getAverages();
+		ArrayList<Point> distances = new ArrayList<Point>();
+		float widthInSec = this.width/1000000000.0f;
+		
+		for (Point p : averages) {
+			float velX = p.x * widthInSec;
+			float velY = p.y * widthInSec;
+			float velZ = p.z * widthInSec;
+			
+			float distX = velX * widthInSec + (p.x * (float) Math.pow(widthInSec, 2));
+			float distY = velY * widthInSec + (p.y * (float) Math.pow(widthInSec, 2));
+			float distZ = velZ * widthInSec + (p.z * (float) Math.pow(widthInSec, 2));
+			
+			Point dist = new Point(distX, distY, distZ);
+			distances.add(dist);
+		}
+		
+		for (Point p : distances) {
+			float newX = this.finalPosition.x + p.x;
+			float newY = this.finalPosition.y + p.y;
+			float newZ = this.finalPosition.z + p.z;
+			
+			this.finalPosition.set(newX, newY, newZ);
+		}
+	}
+	
 	/* Returns an array list of points where each point is
 	 * the average of one time interval
 	 */
 	private ArrayList<Point> getAverages()	{	
 		ArrayList<Point> averages = new ArrayList<Point>();
 		long startTime = this.data.get(0).getTime();
-		long width = 100000000;
 		int start = 0;
 		int end = 0;
 		// TODO
 		// This method should call calcAverageOfInterval(start, end)
 		for(AccelEvent event:data) {
-			if ((event.getTime() >= startTime) && (event.getTime() < startTime + width)) {
+			if ((event.getTime() >= startTime) && (event.getTime() < startTime + this.width)) {
 				end ++;
 			} else {
 				averages.add(calcAverageOfInterval(start, end));
