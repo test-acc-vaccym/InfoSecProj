@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 
+import com.infosec.gesturedata.GestureData;
 import com.infosec.gesturelock.util.SystemUiHider;
 
 /**
@@ -17,6 +18,7 @@ import com.infosec.gesturelock.util.SystemUiHider;
  * @see SystemUiHider
  */
 public class HomeActivity extends Activity {
+	public static GestureData gestureData = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class HomeActivity extends Activity {
 	}
 
 	public void setPassBtnPress(View view) {
-		Intent setLockIntent = new Intent(this, SetPassword.class);
+		Intent setLockIntent = new Intent(this, SetPasswordActivity.class);
 		this.startActivity(setLockIntent);
 	}
 	
