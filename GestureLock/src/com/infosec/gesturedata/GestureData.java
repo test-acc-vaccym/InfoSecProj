@@ -73,7 +73,8 @@ public class GestureData {
 		ArrayList<Point> averages = getAverages();
 		ArrayList<Point> distances = new ArrayList<Point>();
 		float widthInSec = this.width/1000000000.0f;
-
+		this.finalPosition = new Point(0, 0, 0);
+		
 		for (Point p : averages) {
 			float velX = p.x * widthInSec;
 			float velY = p.y * widthInSec;
@@ -104,7 +105,7 @@ public class GestureData {
 		long startTime = 0;
 		int start = 0;
 		int end = 1;
-		// TODO
+		
 		// This method should call calcAverageOfInterval(start, end)
 		for(AccelEvent event:data) {
 			if ((event.getTime() >= startTime) && (event.getTime() < startTime + this.width)) {
@@ -117,7 +118,7 @@ public class GestureData {
 			}
 		}
 
-		if (start == end) {
+		if (start == end ) {
 			averages.add(new Point(
 					data.get(data.size()-1).getX(), 
 					data.get(data.size()-1).getY(), 
@@ -132,9 +133,9 @@ public class GestureData {
 	 */
 	private Point calcAverageOfInterval(int start, int end) {
 		Point p = new Point();
-		int xSum = 0;
-		int ySum = 0;
-		int zSum = 0;
+		float xSum = 0;
+		float ySum = 0;
+		float zSum = 0;
 		int numOfPoints = 0;
 
 		for (int i = start; i < end; i++) {
