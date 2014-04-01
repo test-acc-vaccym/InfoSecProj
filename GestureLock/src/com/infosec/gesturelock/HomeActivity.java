@@ -18,7 +18,6 @@ import com.infosec.gesturelock.util.SystemUiHider;
  * @see SystemUiHider
  */
 public class HomeActivity extends Activity {
-	public static GestureData gestureData = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +40,6 @@ public class HomeActivity extends Activity {
 	}
 	
 	public void lockDeviceBtnPress(View view) {
-		
-	}
-	
-	public void unlockDeviceBtnPress(View view) {
 		
 	}
 
