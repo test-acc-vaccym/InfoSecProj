@@ -44,7 +44,7 @@ public class SetPassword extends Activity implements SensorEventListener{
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_setpassword);
-
+		
 		xAxis = (TextView) this.findViewById(R.id.axisXval);
 		yAxis = (TextView) this.findViewById(R.id.axisYval);
 		zAxis = (TextView) this.findViewById(R.id.axisZval);
