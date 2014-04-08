@@ -60,6 +60,9 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		
 		this.accelData = new ArrayList<AccelEvent>();
 		
+		this.gestureDataSampleOne = new GestureData();
+		this.gestureDataSampleTwo = new GestureData();
+		
 		this.setPassInstr = (TextView) this.findViewById(R.id.setPassInstruction);
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
@@ -105,7 +108,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 					case MotionEvent.ACTION_DOWN:
 						tacocatBtn.setText("Accessing Accelerometer");
 						tacocatBtn.setBackgroundColor(Color.RED);
-						accelData.clear();
+						gestureDataSampleOne.data.clear();
 						btnDown = true;
 						break;
 					case MotionEvent.ACTION_UP:
@@ -124,7 +127,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 //		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
 //		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_FASTEST);
 //		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
@@ -143,39 +146,16 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
         
 		switch(type){
 			case Sensor.TYPE_LINEAR_ACCELERATION:
+				mAcceleration = lowPassFilter(event.values.clone(), mAcceleration);
+				
 				if(this.btnDown){
-					AccelEvent dataPoint = new AccelEvent(event.values[0], event.values[1], event.values[2]);
-					this.accelData.add(dataPoint);
+					this.gestureDataSampleOne.accelerometerParser(mAcceleration);
 				}
 				
-//				accelerometerParser(mAcceleration);
 				break;
-//			case Sensor.TYPE_GRAVITY:
-////				mGravitation = event.values.clone();
-//				break;
-//			case Sensor.TYPE_MAGNETIC_FIELD:
-////				mGeomagnetic = event.values.clone();
-//				break;
 			default:
 				break;
 		}
-		
-//	    if (mGravitation != null && mGeomagnetic != null) {
-//	        float R[] = new float[9];
-//	        float I[] = new float[9];
-//	        boolean success = SensorManager.getRotationMatrix(R, I, mGravitation, mGeomagnetic);
-//	        if (success) {
-//	            float orientation[] = new float[3];
-//	            SensorManager.getOrientation(R, orientation);   
-//
-//	            float azimuthInDegrees = ((float) Math.toDegrees(orientation[0]) + 360) % 360;
-//
-//				orient.setText(Float.toString(azimuthInDegrees));
-//	            if(btnDown){
-//	            	
-//	            }
-//	        }
-//	    }
 	}
 	
 	@Override
@@ -220,6 +200,15 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	}
 	
 	private void onTacocatRelease(){
+		if(!firstSampleCompleted){
+			posOne.setText(this.gestureDataSampleOne.data.toString());
+		}else{
+			
+		}
+	}
+	
+	/*
+	private void onTacocatRelease(){
 		//RUN AWAY!!!!!
 		if(!firstSampleCompleted){
 			gestureDataSampleOne = new GestureData(accelData);
@@ -242,26 +231,17 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 				posTwo.setText("(" + Float.toString(gestureTwo.x * 100.0f) + ", " + Float.toString(gestureTwo.y * 100.0f) + ", " + Float.toString(gestureTwo.z * 100.0f) + ")");
 			}
 		}
-	}
-	
-	/*
-	private void accelerometerParser(float[] input){
-		if(input[0]*100 >= 15.0f){
-			directionAccel.setText("Right");
-		}else if(input[0]*100 <= -15.0f){
-			directionAccel.setText("Left");
-		}
-		
-		if(input[1]*100 >= 13.0f){
-			directionAccel.setText("Forward");
-		}else if(input[1]*100 <= -13.0f){
-			directionAccel.setText("Backward");
-		}
-		
-		if(input[2]*100 >= 15.0f){
-			directionAccel.setText("Zenith (Up)");
-		}else if(input[2]*100 <= -15.0f){
-			directionAccel.setText("Nadir (Down)");
-		}
 	} */
+
+	private float[] lowPassFilter(float[] input, float[] output) {
+		if (output == null) {
+			return input;     
+		}
+
+	    for (int i=0; i<input.length; i++) {
+	    	output[i] = output[i] + ALPHA * (input[i] - output[i]);
+	    }
+
+	   	return output;
+	}
 }

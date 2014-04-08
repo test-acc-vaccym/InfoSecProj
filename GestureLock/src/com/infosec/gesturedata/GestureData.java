@@ -3,149 +3,99 @@ import java.util.ArrayList;
 
 public class GestureData {
 
-	private ArrayList<AccelEvent> data;
+	public ArrayList<direction> data;
+
+	private boolean right;
+	private boolean left;
+	private boolean forward;
+	private boolean backward;
+	private boolean up;
+	private boolean down;
 	
+	private enum direction {RIGHT, LEFT, FORWARD, BACKWARD, UP, DOWN}
 	
-	private Point finalPosition;
-	private long width = 100000000;
-
-
-	static final float ALPHA = 0.20f;
-
-	public GestureData(ArrayList<AccelEvent> events) {
-		this.data = lowPassFilter(events);
-		normalizeData();
-		calculatePosition();
+	public GestureData() {
+		this.data = new ArrayList<direction>();
+		resetBool();
 	}
-
-	/* Returns a point that represents the final ending 
-	 * position after all data is parsed
-	 */
-	public Point getPosition() {
-		return this.finalPosition;
-	}
-
-	/*
-	 * 
-	 */
-	private ArrayList<AccelEvent> lowPassFilter(ArrayList<AccelEvent>input) {
-
-		if (input == null){
-			return new ArrayList<AccelEvent>();
-		}
-
-		ArrayList<AccelEvent> output = new ArrayList<AccelEvent>();
-		output.add(input.get(0));
-
-		for (int i = 1; i < input.size();i++) {
-			AccelEvent current = input.get(i);
-			AccelEvent previous = output.get(i-1);
-			AccelEvent filtered = new AccelEvent();
-
-			filtered.setX(current.getX()+ ALPHA * (current.getX() - previous.getX()));
-			filtered.setY(current.getY()+ ALPHA * (current.getY() - previous.getY()));
-			filtered.setZ(current.getZ()+ ALPHA * (current.getZ() - previous.getZ()));
-			filtered.setTime(current.getTime());
-
-			output.add(filtered);
-		}
-
-		return output;
-	}
-
-	/* Normalizes the data arraylist by setting the timestamp
-	 * of the first element to 0.  Then, the new timestamp for each
-	 * following element will be the event's original timestamp less
-	 * first elements original timestamp
-	 */
-	private void normalizeData() {
-		long base = data.get(0).getTime();
-
-		for (AccelEvent event : this.data) {
-			event.setTime(event.getTime() - base);
+	
+	public void accelerometerParser(float[] input){
+		if((input[0]*100 >= 15.0f) && !right){
+			// Right
+			resetBool();
+			this.right = true;
+			// insert
+			insertDirection(direction.RIGHT);
+			
+		}else if((input[0]*100 <= -15.0f) && !left){
+			// Left
+			resetBool();
+			this.left = true;
+			// insert
+			insertDirection(direction.LEFT);
+			
+		}else if((input[1]*100 >= 13.0f) && !forward){
+			// Forward
+			resetBool();
+			this.forward = true;
+			// insert
+			insertDirection(direction.FORWARD);
+			
+		}else if((input[1]*100 <= -13.0f) && !backward){
+			// Backward
+			resetBool();
+			this.backward = true;
+			// insert
+			insertDirection(direction.BACKWARD);
+			
+		}else if((input[2]*100 >= 15.0f) && !up){
+			// Zenith (UP)
+			resetBool();
+			this.up = true;
+			// insert
+			insertDirection(direction.UP);
+			
+		}else if((input[2]*100 <= -15.0f) && !down){
+			// Nadir (DOWN)
+			resetBool();
+			this.down = true;
+			// insert
+			insertDirection(direction.DOWN);
+			
 		}
 	}
-
-	/* Using the averages of the intervals, calculates the final
-	 * ending point and stores it in this.finalPosition
-	 */
-	private void calculatePosition() {
-		ArrayList<Point> averages = getAverages();
-		ArrayList<Point> distances = new ArrayList<Point>();
-		float widthInSec = this.width/1000000000.0f;
-		this.finalPosition = new Point(0, 0, 0);
-		
-		for (Point p : averages) {
-			float velX = p.x * widthInSec;
-			float velY = p.y * widthInSec;
-			float velZ = p.z * widthInSec;
-
-			float distX = velX * widthInSec + (p.x * (float) Math.pow(widthInSec, 2));
-			float distY = velY * widthInSec + (p.y * (float) Math.pow(widthInSec, 2));
-			float distZ = velZ * widthInSec + (p.z * (float) Math.pow(widthInSec, 2));
-
-			Point dist = new Point(distX, distY, distZ);
-			distances.add(dist);
-		}
-
-		for (Point p : distances) {
-			float newX = this.finalPosition.x + p.x;
-			float newY = this.finalPosition.y + p.y;
-			float newZ = this.finalPosition.z + p.z;
-
-			this.finalPosition.set(newX, newY, newZ);
+	
+	private void insertDirection(direction dir){
+		switch(dir){
+		case RIGHT:
+			this.data.add(dir);
+			break;
+		case LEFT:
+			this.data.add(dir);
+			break;
+		case FORWARD:
+			this.data.add(dir);
+			break;
+		case BACKWARD:
+			this.data.add(dir);
+			break;
+		case UP:
+			this.data.add(dir);
+			break;
+		case DOWN:
+			this.data.add(dir);
+			break;
+		default:
+			break;
 		}
 	}
-
-	/* Returns an array list of points where each point is
-	 * the average of one time interval
-	 */
-	private ArrayList<Point> getAverages()	{	
-		ArrayList<Point> averages = new ArrayList<Point>();
-		long startTime = 0;
-		int start = 0;
-		int end = 1;
-		
-		// This method should call calcAverageOfInterval(start, end)
-		for(AccelEvent event:data) {
-			if ((event.getTime() >= startTime) && (event.getTime() < startTime + this.width)) {
-				end ++;
-			} else {
-				averages.add(calcAverageOfInterval(start, end));
-				startTime +=this.width;
-				start = end;
-				end++;
-			}
-		}
-
-		if (start == end ) {
-			averages.add(new Point(
-					data.get(data.size()-1).getX(), 
-					data.get(data.size()-1).getY(), 
-					data.get(data.size()-1).getZ()));
-		}
-		return averages;
-	}
-
-	/* Returns a point that represents the averages
-	 * @args start Starting time in nanoseconds
-	 * @args end End of the interval in nanoseconds
-	 */
-	private Point calcAverageOfInterval(int start, int end) {
-		Point p = new Point();
-		float xSum = 0;
-		float ySum = 0;
-		float zSum = 0;
-		int numOfPoints = 0;
-
-		for (int i = start; i < end; i++) {
-			AccelEvent event = data.get(i);
-			xSum += event.getX();
-			ySum += event.getY();
-			zSum += event.getZ();
-			numOfPoints++;	
-		}
-		p.set(xSum/numOfPoints, ySum/numOfPoints, zSum/numOfPoints);
-		return p;
+	
+	private void resetBool(){
+		this.right = false;
+		this.forward = false;
+		this.up = false;
+		this.left = false;
+		this.backward = false;
+		this.down = false;
 	}
 }
