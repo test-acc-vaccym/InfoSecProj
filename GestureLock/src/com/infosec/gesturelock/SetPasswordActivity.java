@@ -67,6 +67,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
 		this.posOne = (TextView) this.findViewById(R.id.posOneVal);
+		this.posTwo = (TextView) this.findViewById(R.id.posTwoVal);
 		
 		if(existingPass()){
 			this.setPassInstr.setText("Enter your existing password");
@@ -79,23 +80,8 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null){
 			this.mAccelerometer = this.mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 		}
-
-//		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null){
-//			this.mGravity = this.mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-//		}
-//		
-//		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
-//			this.mMagnetometer = this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-//		}
-//		
-//		if(this.mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
-//			this.mGyroscope = this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-//		}
 		
 		this.mSensorManager.registerListener(this, this.mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-//		this.mSensorManager.registerListener(this, this.mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-//		this.mSensorManager.registerListener(this, this.mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-//		this.mSensorManager.registerListener(this, this.mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
 		
 		tacocatBtn = (Button) this.findViewById(R.id.testBtn);
 		
@@ -107,12 +93,13 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 					case MotionEvent.ACTION_DOWN:
 						tacocatBtn.setText("Accessing Accelerometer");
 						tacocatBtn.setBackgroundColor(Color.RED);
-						gestureDataSampleOne.data.clear();
+//						gestureDataSampleOne.data.clear();
 						btnDown = true;
 						break;
 					case MotionEvent.ACTION_UP:
 						tacocatBtn.setText("tacocat");
 						tacocatBtn.setBackgroundColor(Color.LTGRAY);
+						btnDown = false;
 						onTacocatRelease();
 						break;
 					default:
@@ -126,10 +113,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-//		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
-//		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_FASTEST);
-//		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 	}
 	 
 	@Override
@@ -148,8 +132,14 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 				mAcceleration = lowPassFilter(event.values.clone(), mAcceleration);
 				
 				if(this.btnDown){
-					this.gestureDataSampleOne.accelerometerParser(mAcceleration);
-//					this.gestureDataSampleOne.accelerometerParser(event.values.clone());
+
+					if(!firstSampleCompleted){
+						this.gestureDataSampleOne.accelerometerParser(mAcceleration);
+//						this.gestureDataSampleOne.accelerometerParser(event.values.clone());
+					}else{
+						this.gestureDataSampleTwo.accelerometerParser(mAcceleration);
+//						this.gestureDataSampleTwo.accelerometerParser(event.values.clone());						
+					}
 				}
 				
 				break;
@@ -202,8 +192,16 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	private void onTacocatRelease(){
 		if(!firstSampleCompleted){
 			posOne.setText(this.gestureDataSampleOne.data.toString());
+			setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
+			firstSampleCompleted = true;
 		}else{
-			
+			if(gestureDataSampleOne == null || gestureDataSampleTwo == null){
+				setPassInstr.setText("Error: Please reenter your password");
+				firstSampleCompleted = false;
+			}else{
+				posTwo.setText(this.gestureDataSampleTwo.data.toString());
+				tacocatBtn.setEnabled(false);
+			}			
 		}
 	}
 	
