@@ -32,7 +32,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 //	private Sensor mGyroscope;
 	
 	
-	static final float ALPHA = 0.20f;
+	static final float ALPHA = 0.25f;
 	
 	private float[] mAcceleration = null;
 //	private float[] mGravitation = null;
@@ -67,7 +67,6 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
 		this.posOne = (TextView) this.findViewById(R.id.posOneVal);
-		this.posTwo = (TextView) this.findViewById(R.id.posTwoVal);
 		
 		if(existingPass()){
 			this.setPassInstr.setText("Enter your existing password");
@@ -93,7 +92,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 //			this.mGyroscope = this.mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 //		}
 		
-		this.mSensorManager.registerListener(this, this.mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+		this.mSensorManager.registerListener(this, this.mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 //		this.mSensorManager.registerListener(this, this.mGravity, SensorManager.SENSOR_DELAY_NORMAL);
 //		this.mSensorManager.registerListener(this, this.mMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 //		this.mSensorManager.registerListener(this, this.mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
@@ -127,7 +126,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
 //		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_NORMAL);
 //		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_FASTEST);
 //		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
@@ -150,6 +149,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 				
 				if(this.btnDown){
 					this.gestureDataSampleOne.accelerometerParser(mAcceleration);
+//					this.gestureDataSampleOne.accelerometerParser(event.values.clone());
 				}
 				
 				break;

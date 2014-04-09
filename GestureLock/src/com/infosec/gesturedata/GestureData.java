@@ -20,42 +20,42 @@ public class GestureData {
 	}
 	
 	public void accelerometerParser(float[] input){
-		if((input[0]*100 >= 15.0f) && !right){
+		if((input[0]*100 >= 34.0f) && !right){
 			// Right
 			resetBool();
 			this.right = true;
 			// insert
 			insertDirection(direction.RIGHT);
 			
-		}else if((input[0]*100 <= -15.0f) && !left){
+		}else if((input[0]*100 <= -34.0f) && !left){
 			// Left
 			resetBool();
 			this.left = true;
 			// insert
 			insertDirection(direction.LEFT);
 			
-		}else if((input[1]*100 >= 13.0f) && !forward){
+		}else if((input[1]*100 >= 33.0f) && !forward){
 			// Forward
 			resetBool();
 			this.forward = true;
 			// insert
 			insertDirection(direction.FORWARD);
 			
-		}else if((input[1]*100 <= -13.0f) && !backward){
+		}else if((input[1]*100 <= -33.0f) && !backward){
 			// Backward
 			resetBool();
 			this.backward = true;
 			// insert
 			insertDirection(direction.BACKWARD);
 			
-		}else if((input[2]*100 >= 15.0f) && !up){
+		}else if((input[2]*100 >= 35.0f) && !up){
 			// Zenith (UP)
 			resetBool();
 			this.up = true;
 			// insert
 			insertDirection(direction.UP);
 			
-		}else if((input[2]*100 <= -15.0f) && !down){
+		}else if((input[2]*100 <= -35.0f) && !down){
 			// Nadir (DOWN)
 			resetBool();
 			this.down = true;
