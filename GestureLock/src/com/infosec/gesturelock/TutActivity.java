@@ -12,18 +12,23 @@ import android.view.MenuItem;
 
 public class TutActivity extends FragmentActivity {
     /**
-     * The number of pages (wizard steps) to show in this demo. MUST MATCH THE NUMBER OF PICTURES IN THE FOLLOWING ARRAY
+     * The number of pages (wizard steps) to show in this demo. MUST MATCH THE
+     * NUMBER OF PICTURES IN THE FOLLOWING ARRAY
      */
-    private static final int NUM_PAGES = 3;
-    
+    private static final int NUM_PAGES = 5;
+
     /**
      * Array that holds the IDs of the drawables
      */
-    private int[] images = {R.drawable.guidepic1, R.drawable.guidepic2, R.drawable.guidepic3};
+    private final int[] images = { R.drawable.gesturelocktutorialscreen,
+            R.drawable.gesturelocktutorialscreen2,
+            R.drawable.gesturelocktutorialscreen3,
+            R.drawable.gesturelocktutorialscreen4,
+            R.drawable.gesturelocktutorialscreen5 };
 
     /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
+     * The pager widget, which handles animation and allows swiping horizontally
+     * to access previous and next wizard steps.
      */
     private ViewPager mPager;
 
@@ -35,12 +40,13 @@ public class TutActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tut);
+        this.setContentView(R.layout.activity_tut);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new TutActivityPagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        this.mPager = (ViewPager) this.findViewById(R.id.pager);
+        this.mPagerAdapter = new TutActivityPagerAdapter(
+                this.getSupportFragmentManager());
+        this.mPager.setAdapter(this.mPagerAdapter);
     }
 
     @Override
@@ -51,8 +57,8 @@ public class TutActivity extends FragmentActivity {
     }
 
     /**
-     * A simple pager adapter that represents 5 {@link ScreenSlidePageFragment} objects, in
-     * sequence.
+     * A simple pager adapter that represents 5 {@link ScreenSlidePageFragment}
+     * objects, in sequence.
      */
     private class TutActivityPagerAdapter extends FragmentStatePagerAdapter {
         public TutActivityPagerAdapter(FragmentManager fm) {
@@ -61,7 +67,8 @@ public class TutActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return TutActivityFrag.create(position, images[position]);
+            return TutActivityFrag.create(position,
+                    TutActivity.this.images[position]);
         }
 
         @Override
