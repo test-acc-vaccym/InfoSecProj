@@ -7,8 +7,8 @@
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
-    
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
@@ -71,11 +71,17 @@
         </activity>
         <activity
             android:name="com.infosec.gesturelock.StartTestActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:label="@string/title_activity_lock"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_lock"
             android:parentActivityName="com.infosec.gesturelock.LockActivity"
-            android:screenOrientation="portrait"  >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="com.infosec.gesturelock.LockSuccessScreen"
+            android:parentActivityName="com.infosec.gesturelock.HomeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_main" >
         </activity>
     </application>
 

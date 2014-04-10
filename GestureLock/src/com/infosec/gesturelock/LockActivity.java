@@ -55,6 +55,7 @@ public class LockActivity extends Activity {
 		if(existingPass()){
 			Intent lockIntent = new Intent(this, StartTestActivity.class);
 			this.startActivity(lockIntent);
+			this.finish();
 		}else{
 			noPassAlert();
 		}

@@ -3,6 +3,7 @@ package com.infosec.gesturelock;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -57,7 +58,7 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 		
 		this.mSensorManager.registerListener(this, this.mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-		findViewById(R.id.lockScreenlockView).setOnTouchListener(new OnTouchListener() {
+		findViewById(R.id.imageDisplayView).setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				
@@ -161,12 +162,17 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 	
 	private void checkData() {
 		if(GestureData.compResults(HomeActivity.userPassword, this.userAttempt)){
-			ImageView lockView = (ImageView) findViewById(R.id.lockScreenlockView);
+			ImageView lockView = (ImageView) findViewById(R.id.imageDisplayView);
 			lockView.setImageResource(R.drawable.unlockscreen);
 			lockView.invalidate();
 			Toast.makeText(this, "Unlocked.", Toast.LENGTH_SHORT).show();
+
+			mSensorManager.unregisterListener(this);
 			
-			onLeave();
+
+			Intent successScreen = new Intent(this, LockSuccessScreen.class);
+			this.startActivity(successScreen);
+			this.finish();
 		}else{
 			imposter();
 		}

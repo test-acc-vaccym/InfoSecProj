@@ -17,11 +17,12 @@
        android:paddingLeft="6dp" >
 
                      <ImageView
-                         android:id="@+id/lockScreenlockView"
+                         android:id="@+id/imageDisplayView"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_alignParentTop="true"
                          android:layout_centerHorizontal="true"
+                         android:onClick="tacocatRelease"
                          android:src="@drawable/welldone" />
 
                      <TextView
@@ -29,7 +30,7 @@
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_alignParentLeft="true"
-                         android:layout_below="@+id/lockScreenlockView"
+                         android:layout_below="@+id/imageDisplayView"
                          android:layout_margin="20dp"
                          android:text="You have successfully unlocked your phone! Press Back to try again or Home to return to the main screen."
                          android:textAppearance="?android:attr/textAppearanceMedium"
@@ -43,14 +44,16 @@
                          android:layout_alignBottom="@+id/button2"
                          android:layout_marginRight="40dp"
                          android:layout_toLeftOf="@+id/button2"
+                         android:onClick="returnToLock"
                          android:text="Back" />
 
                      <Button
                          android:id="@+id/button2"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:layout_alignRight="@+id/lockScreenlockView"
+                         android:layout_alignRight="@+id/imageDisplayView"
                          android:layout_below="@+id/setPassInstruction"
+                         android:onClick="goHome"
                          android:text="Home" />
 
    </RelativeLayout>
