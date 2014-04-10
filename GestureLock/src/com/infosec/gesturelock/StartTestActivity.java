@@ -14,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.infosec.gesturedata.GestureData;
 
@@ -157,7 +159,24 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 	   	return output;
 	}
 	
-	public void checkData() {
+	private void checkData() {
+		if(GestureData.compResults(HomeActivity.userPassword, this.userAttempt)){
+			ImageView lockView = (ImageView) findViewById(R.id.lockScreenlockView);
+			lockView.setImageResource(R.drawable.unlockscreen);
+			Toast.makeText(this, "What a hoss.", Toast.LENGTH_SHORT).show();
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			onLeave();
+		}else{
+			imposter();
+		}
+	}
+	
+	private void imposter() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 //        submitQuery.setCancelable(true);
         alert.setTitle("IMPOSTER!");

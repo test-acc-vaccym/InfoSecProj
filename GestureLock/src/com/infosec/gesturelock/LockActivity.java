@@ -1,22 +1,14 @@
 package com.infosec.gesturelock;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.StreamCorruptedException;
-
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-
-import com.infosec.gesturedata.GestureData;
 
 public class LockActivity extends Activity {
 
@@ -60,13 +52,45 @@ public class LockActivity extends Activity {
 	}
 
 	public void startTestBtn(View view) {
-		Intent lockIntent = new Intent(this, StartTestActivity.class);
-		this.startActivity(lockIntent);
-		Log.d("asdf", "MOO");
+		if(existingPass()){
+			Intent lockIntent = new Intent(this, StartTestActivity.class);
+			this.startActivity(lockIntent);
+		}else{
+			noPassAlert();
+		}
 	}
 	
 	private boolean existingPass(){
 		// Check for existing password
-		return true;
+		if(HomeActivity.userPassword == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	private void noPassAlert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        submitQuery.setCancelable(true);
+        alert.setTitle("No Password Set");
+        alert.setInverseBackgroundForced(true);
+        alert.setMessage("You have not yet set a gesture password. Would you like to set a new password?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            	
+                dialog.dismiss();
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            	
+                dialog.dismiss();
+            }
+        });
+        
+        alert.show();
 	}
 }

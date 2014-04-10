@@ -1,7 +1,13 @@
 package com.infosec.gesturedata;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GestureData {
+public class GestureData implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public ArrayList<direction> data;
 
@@ -102,13 +108,15 @@ public class GestureData {
 	public static boolean compResults(GestureData set1, GestureData set2){
 		
 		if(set1.data.size() != set2.data.size()){
-			
+			return false;
 		}
 		
 		for(int i=0;i<set1.data.size();i++){
-			
+			if(set1.data.get(i) != set2.data.get(i)){
+				return false;
+			}
 		}
 		
-		return false;
+		return true;
 	}
 }

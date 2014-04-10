@@ -50,11 +50,12 @@ public class HomeActivity extends Activity {
         userPassword = null;
 		
 		try {
-			FileInputStream fos = this.openFileInput("userPass");
-			ObjectInputStream is = new ObjectInputStream(fos);
+			FileInputStream fis = this.openFileInput("userPass");
+			ObjectInputStream is = new ObjectInputStream(fis);
 			userPassword = (GestureData) is.readObject();
+//			Toast.makeText(this, Integer.toString(userPassword.data.size()), Toast.LENGTH_SHORT).show();
 			is.close();
-			fos.close();
+			fis.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			Toast.makeText(this, "Password not detected", Toast.LENGTH_SHORT).show();

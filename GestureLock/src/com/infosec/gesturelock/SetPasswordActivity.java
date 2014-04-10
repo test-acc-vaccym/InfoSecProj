@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.infosec.gesturedata.GestureData;
 
 public class SetPasswordActivity extends Activity implements SensorEventListener{
+	private GestureData passAttempt = null;
 	private GestureData gestureDataSampleOne = null;
 	private GestureData gestureDataSampleTwo = null;
 	
@@ -47,6 +48,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	boolean btnDown = true;
 	boolean firstSampleCompleted = false;
 	boolean passExists = false;
+	boolean unlocked = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +65,10 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		this.posTwo = (TextView) this.findViewById(R.id.posTwoVal);
 		
 		if(existingPass()){
-			this.setPassInstr.setText("Enter your existing password");
+			this.passAttempt = new GestureData();
+			this.setPassInstr.setText("Enter your existing password before changing your password.");
 		}else{
-			this.setPassInstr.setText("Set new gesture password. Press and hold the tacocat button to record your new gesture password.");
-//			this.setPassInstr.setText("Please hold the button below to create your motion lock and let go when you have finished the pattern you desire.");
+			this.setPassInstr.setText("Set new gesture password. Press and hold the Record Password button to record your new gesture password.");
 		}
 		
 		this.mSensorManager = (SensorManager) getSystemService(SetPasswordActivity.SENSOR_SERVICE);
@@ -82,7 +84,6 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		findViewById(R.id.testBtn).setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						tacocatBtn.setText("Accessing Accelerometer");
@@ -125,14 +126,25 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 				mAcceleration = lowPassFilter(event.values.clone(), mAcceleration);
 				
 				if(this.btnDown){
-
-					if(!firstSampleCompleted){
-						this.gestureDataSampleOne.accelerometerParser(mAcceleration);
+					if(passExists){
+						if(unlocked){
+							if(!firstSampleCompleted){
+								this.gestureDataSampleOne.accelerometerParser(mAcceleration);
+							}else{
+								this.gestureDataSampleTwo.accelerometerParser(mAcceleration);						
+							}
+						}else{
+							// Unlock the device
+							this.passAttempt.accelerometerParser(mAcceleration);
+						}
 					}else{
-						this.gestureDataSampleTwo.accelerometerParser(mAcceleration);						
+						if(!firstSampleCompleted){
+							this.gestureDataSampleOne.accelerometerParser(mAcceleration);
+						}else{
+							this.gestureDataSampleTwo.accelerometerParser(mAcceleration);						
+						}
 					}
 				}
-				
 				break;
 			default:
 				break;
@@ -142,27 +154,6 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub
-	}
-	
-	/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.wii_gee, menu);
-		return true;
-	}*/
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
@@ -178,44 +169,75 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	private boolean existingPass(){
 		// Check for existing password
 		if(HomeActivity.userPassword == null){
+			passExists = false;
 			return false;
 		}else{
+			passExists = true;
 			return true;
 		}
 	}
 	
 	private void onTacocatRelease(){
 		if(passExists){
-			
-		}else{
-			if(!firstSampleCompleted){
-				posOne.setText(this.gestureDataSampleOne.data.toString());
-				setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
-				firstSampleCompleted = true;
+			if(unlocked){
+				getNewPass();
 			}else{
-				posTwo.setText(this.gestureDataSampleTwo.data.toString());
+				// Unlock the device
+				unlockItYo();
+			}
+		}else{
+			getNewPass();
+		}
+	}
+	
+	private void unlockItYo(){
+		if(GestureData.compResults(HomeActivity.userPassword, this.passAttempt)){
+			this.setPassInstr.setText("Set new gesture password. Press and hold the Record Password button to record your new gesture password.");
+			this.unlocked = true;
+		}else{
+			this.setPassInstr.setText("Incorrect gesture. Enter your existing password before changing your password.");
+			this.passAttempt.data.clear();
+			this.unlocked = false;
+		}
+	}
+	
+	private void getNewPass(){
+		if(!firstSampleCompleted){
+			posOne.setText(this.gestureDataSampleOne.data.toString());
+			setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
+			firstSampleCompleted = true;
+		}else{
+			posTwo.setText(this.gestureDataSampleTwo.data.toString());
+			if(GestureData.compResults(this.gestureDataSampleOne, this.gestureDataSampleTwo)){
 				setPassInstr.setText("");
-				tacocatBtn.setEnabled(false);
-				if(GestureData.compResults(this.gestureDataSampleOne, this.gestureDataSampleTwo)){
-					try {
-						FileOutputStream fos = this.openFileOutput("userPass", Context.MODE_PRIVATE);
-						ObjectOutputStream os = new ObjectOutputStream(fos);
-						os.writeObject(this.gestureDataSampleOne);
-						os.close();
-						fos.close();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						Toast.makeText(this, "Ex: 1", Toast.LENGTH_SHORT).show();
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						Toast.makeText(this, "Ex: 2", Toast.LENGTH_SHORT).show();
-						e.printStackTrace();
-					}
-
-				}
+				savePass();
+				Toast.makeText(this, "Great Success!", Toast.LENGTH_SHORT).show();
+				mSensorManager.unregisterListener(this);
+				this.finish();
+			}else{
+				setPassInstr.setText("Your passwords are different, please reattempt.");
+				this.gestureDataSampleTwo.data.clear();
 			}
 		}
+	}
+	
+	private void savePass(){
+		try {
+			FileOutputStream fos = this.openFileOutput("userPass", Context.MODE_PRIVATE);
+			ObjectOutputStream os = new ObjectOutputStream(fos);
+			os.writeObject(this.gestureDataSampleOne);
+			os.close();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(this, "Ex: 1", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(this, "Ex: 2", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+		HomeActivity.userPassword = this.gestureDataSampleOne;
 	}
 
 	private float[] lowPassFilter(float[] input, float[] output) {
