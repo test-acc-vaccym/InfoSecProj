@@ -1,16 +1,13 @@
 package com.infosec.gesturelock;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
+import android.view.Window;
 import android.widget.Toast;
 
 public class StartTestActivity extends Activity {
@@ -23,13 +20,10 @@ public class StartTestActivity extends Activity {
 		
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		Log.d("asdf", "MOO");
 		
 		setContentView(R.layout.activity_start_test);
 		//tacocatBtn = (Button) this.findViewById(R.id.lockScreenlockView);
 
-		
-		/*
 		findViewById(R.id.lockScreenlockView).setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -48,7 +42,7 @@ public class StartTestActivity extends Activity {
 				}
 				return true;
 			}
-		}); */
+		});
 	}
 	
 	@Override
