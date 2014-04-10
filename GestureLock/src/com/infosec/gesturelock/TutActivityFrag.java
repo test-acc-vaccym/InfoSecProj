@@ -64,8 +64,6 @@ public class TutActivityFrag extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_tut_frag, container, false);
 
         // Set the title view to show the page number.
-        ((TextView) rootView.findViewById(R.id.tutImgHeader)).setText(getString(R.string.title_template_step, mPageNumber + 1));
-        
         ((ImageView) rootView.findViewById(R.id.tutImage)).setImageResource(mImageNumber);
         
         return rootView;
