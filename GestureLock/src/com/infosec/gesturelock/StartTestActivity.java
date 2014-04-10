@@ -163,13 +163,9 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 		if(GestureData.compResults(HomeActivity.userPassword, this.userAttempt)){
 			ImageView lockView = (ImageView) findViewById(R.id.lockScreenlockView);
 			lockView.setImageResource(R.drawable.unlockscreen);
-			Toast.makeText(this, "What a hoss.", Toast.LENGTH_SHORT).show();
-			try {
-				Thread.sleep(3);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			lockView.invalidate();
+			Toast.makeText(this, "Unlocked.", Toast.LENGTH_SHORT).show();
+			
 			onLeave();
 		}else{
 			imposter();
@@ -178,7 +174,6 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 	
 	private void imposter() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        submitQuery.setCancelable(true);
         alert.setTitle("IMPOSTER!");
         alert.setInverseBackgroundForced(true);
         alert.setMessage("You have gestured the incorrect pattern. Would you like to retry?");

@@ -78,19 +78,25 @@ public class LockActivity extends Activity {
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            	
                 dialog.dismiss();
+                setPassActivity();
             }
         });
 
         alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            	
+            	onBackPressed();
                 dialog.dismiss();
             }
         });
         
         alert.show();
+	}
+	
+	private void setPassActivity(){
+		Intent setLockIntent = new Intent(this, SetPasswordActivity.class);
+		this.startActivity(setLockIntent);
+//		this.finish();
 	}
 }

@@ -62,15 +62,12 @@ public class HomeActivity extends Activity {
 			e.printStackTrace();
 		} catch (StreamCorruptedException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(this, "Ex: File no here 2", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(this, "Ex: File no here 3", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(this, "Ex: File no here 4", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}
