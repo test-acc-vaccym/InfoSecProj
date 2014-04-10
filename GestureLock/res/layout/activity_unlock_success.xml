@@ -32,7 +32,8 @@
                          android:layout_below="@+id/imageView1"
                          android:layout_margin="20dp"
                          android:text="You have successfully unlocked your phone! Press Back to try again or Home to return to the main screen."
-                         android:textAppearance="?android:attr/textAppearanceMedium" />
+                         android:textAppearance="?android:attr/textAppearanceMedium"
+                         android:textColor="@color/black_overlay" />
 
                      <Button
                          android:id="@+id/button1"
