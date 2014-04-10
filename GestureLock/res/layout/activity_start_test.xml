@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/black_overlay"
     android:columnCount="1"
-    android:onClick="getData"
     tools:context="com.infosec.gesturelock.HomeActivity" >
 
     <RelativeLayout
@@ -18,13 +17,12 @@
 
      <ImageView
          android:id="@+id/lockScreenlockView"
-         android:contentDescription="@string/defaultDescription"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_alignParentLeft="true"
          android:layout_alignParentRight="true"
          android:layout_alignParentTop="true"
-         android:onClick="getData"
+         android:contentDescription="@string/defaultDescription"
          android:src="@drawable/lockscreen" />
         
     </RelativeLayout>

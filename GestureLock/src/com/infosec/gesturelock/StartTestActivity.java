@@ -14,12 +14,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.infosec.gesturedata.GestureData;
 
 public class StartTestActivity extends Activity implements SensorEventListener {
-	private GestureData userPassword = null;
+	private GestureData userAttempt = null;
 	
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -37,8 +36,16 @@ public class StartTestActivity extends Activity implements SensorEventListener {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.activity_start_test);
-
-		this.userPassword = new GestureData();
+		
+//		View decorView = getWindow().getDecorView();
+//		decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//		                              | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//		                              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//		                              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//		                              | View.SYSTEM_UI_FLAG_FULLSCREEN
+//		                              | View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		
+		this.userAttempt = new GestureData();
 
 		this.mSensorManager = (SensorManager) getSystemService(SetPasswordActivity.SENSOR_SERVICE);
 		
@@ -96,6 +103,15 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 	
 	@Override
 	public void onBackPressed() {
+//		mSensorManager.unregisterListener(this);
+//		
+//        NavUtils.navigateUpFromSameTask(this);
+//        this.finish();
+//
+//	    super.onBackPressed();
+	}
+	
+	private void onLeave() {
 		mSensorManager.unregisterListener(this);
 		
         NavUtils.navigateUpFromSameTask(this);
@@ -120,7 +136,7 @@ public class StartTestActivity extends Activity implements SensorEventListener {
 				mAcceleration = lowPassFilter(event.values.clone(), mAcceleration);
 				
 				if(this.btnDown){
-					this.userPassword.accelerometerParser(mAcceleration);
+					this.userAttempt.accelerometerParser(mAcceleration);
 				}
 				
 				break;
@@ -150,7 +166,7 @@ public class StartTestActivity extends Activity implements SensorEventListener {
         alert.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            	userPassword.data.clear();
+            	userAttempt.data.clear();
             	
                 dialog.dismiss();
             }
@@ -160,7 +176,7 @@ public class StartTestActivity extends Activity implements SensorEventListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                onBackPressed();
+                onLeave();
             }
         });
         

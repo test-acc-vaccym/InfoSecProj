@@ -1,6 +1,12 @@
 package com.infosec.gesturelock;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,6 +20,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.infosec.gesturedata.GestureData;
 
@@ -39,6 +46,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	
 	boolean btnDown = true;
 	boolean firstSampleCompleted = false;
+	boolean passExists = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -168,51 +176,47 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	}
 
 	private boolean existingPass(){
-		// Check for existing password		
-		return false;
+		// Check for existing password
+		if(HomeActivity.userPassword == null){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	
 	private void onTacocatRelease(){
-		if(!firstSampleCompleted){
-			posOne.setText(this.gestureDataSampleOne.data.toString());
-			setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
-			firstSampleCompleted = true;
+		if(passExists){
+			
 		}else{
-			if(gestureDataSampleOne == null || gestureDataSampleTwo == null){
-				setPassInstr.setText("Error: Please reenter your password");
-				firstSampleCompleted = false;
+			if(!firstSampleCompleted){
+				posOne.setText(this.gestureDataSampleOne.data.toString());
+				setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
+				firstSampleCompleted = true;
 			}else{
 				posTwo.setText(this.gestureDataSampleTwo.data.toString());
+				setPassInstr.setText("");
 				tacocatBtn.setEnabled(false);
-			}			
-		}
-	}
-	
-	/*
-	private void onTacocatRelease(){
-		//RUN AWAY!!!!!
-		if(!firstSampleCompleted){
-			gestureDataSampleOne = new GestureData(accelData);
-			setPassInstr.setText("Confirm gesture password. Press and hold the tacocat button to confirm your new gesture password.");
-			firstSampleCompleted = true;
-			btnDown = false;
-		}else{
-			gestureDataSampleTwo = new GestureData(accelData);
-			btnDown = false;
-			if(gestureDataSampleOne == null || gestureDataSampleTwo == null){
-				setPassInstr.setText("Error: Please reenter your password");
-				firstSampleCompleted = false;
-			}else{
-				tacocatBtn.setEnabled(false);
-				setPassInstr.setText("Thinking...");
-				Point gestureOne = gestureDataSampleOne.getPosition();
-				Point gestureTwo = gestureDataSampleTwo.getPosition();
-				
-				posOne.setText("(" + Float.toString(gestureOne.x * 100.0f) + ", " + Float.toString(gestureOne.y * 100.0f) + ", " + Float.toString(gestureOne.z * 100.0f) + ")");
-				posTwo.setText("(" + Float.toString(gestureTwo.x * 100.0f) + ", " + Float.toString(gestureTwo.y * 100.0f) + ", " + Float.toString(gestureTwo.z * 100.0f) + ")");
+				if(GestureData.compResults(this.gestureDataSampleOne, this.gestureDataSampleTwo)){
+					try {
+						FileOutputStream fos = this.openFileOutput("userPass", Context.MODE_PRIVATE);
+						ObjectOutputStream os = new ObjectOutputStream(fos);
+						os.writeObject(this.gestureDataSampleOne);
+						os.close();
+						fos.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						Toast.makeText(this, "Ex: 1", Toast.LENGTH_SHORT).show();
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						Toast.makeText(this, "Ex: 2", Toast.LENGTH_SHORT).show();
+						e.printStackTrace();
+					}
+
+				}
 			}
 		}
-	} */
+	}
 
 	private float[] lowPassFilter(float[] input, float[] output) {
 		if (output == null) {

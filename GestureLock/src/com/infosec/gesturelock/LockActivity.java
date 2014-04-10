@@ -1,6 +1,13 @@
 package com.infosec.gesturelock;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.StreamCorruptedException;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -8,6 +15,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+
+import com.infosec.gesturedata.GestureData;
 
 public class LockActivity extends Activity {
 
@@ -57,7 +66,7 @@ public class LockActivity extends Activity {
 	}
 	
 	private boolean existingPass(){
-		// Check for existing password		
-		return false;
+		// Check for existing password
+		return true;
 	}
 }
