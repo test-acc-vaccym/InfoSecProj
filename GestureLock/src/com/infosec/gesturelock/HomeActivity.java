@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 
-import com.infosec.gesturedata.GestureData;
 import com.infosec.gesturelock.util.SystemUiHider;
 
 /**

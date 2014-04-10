@@ -41,9 +41,8 @@
             android:id="@+id/lockView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/setPassInstruction"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="26dp"
             android:src="@drawable/unlock" />
         
     </RelativeLayout>

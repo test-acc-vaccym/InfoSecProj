@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -28,15 +29,6 @@ public class LockActivity extends Activity {
 	protected void onPause() {
 			super.onPause();
 	}
-	
-	/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.wii_gee, menu);
-		return true;
-	}*/
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -59,8 +51,9 @@ public class LockActivity extends Activity {
 	}
 
 	public void startTestBtn(View view) {
-//		Intent lockDeviceIntent = new Intent(this, LockActivity.class);
-//		this.startActivity(lockDeviceIntent);
+		Log.d("asdf", "HERE");
+		Intent lockIntent = new Intent(this, StartTestActivity.class);
+		this.startActivity(lockIntent);
 	}
 	
 	private boolean existingPass(){
