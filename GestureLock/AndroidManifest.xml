@@ -70,8 +70,7 @@
             android:name="com.infosec.gesturelock.StartTestActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_lock"
-            android:parentActivityName="com.infosec.gesturelock.LockActivity"
-            android:theme="@style/FullscreenTheme" >
+            android:parentActivityName="com.infosec.gesturelock.LockActivity"  >
         </activity>
     </application>
 

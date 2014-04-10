@@ -30,12 +30,8 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	static final float ALPHA = 0.25f;
 	
 	private float[] mAcceleration = null;
-//	private float[] mGravitation = null;
-//	private float[] mGeomagnetic = null;
-	private ArrayList<AccelEvent> accelData = null;
 	
 	private TextView setPassInstr = null;
-	private TextView directionAccel = null;
 	private TextView posOne = null;
 	private TextView posTwo = null;
 	private Button tacocatBtn = null;
@@ -53,13 +49,10 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 		
 		setContentView(R.layout.activity_setpassword);
 		
-		this.accelData = new ArrayList<AccelEvent>();
-		
 		this.gestureDataSampleOne = new GestureData();
 		this.gestureDataSampleTwo = new GestureData();
 		
 		this.setPassInstr = (TextView) this.findViewById(R.id.setPassInstruction);
-		this.directionAccel = (TextView) this.findViewById(R.id.directionlbl);
 		
 		this.posOne = (TextView) this.findViewById(R.id.posOneVal);
 		this.posTwo = (TextView) this.findViewById(R.id.posTwoVal);

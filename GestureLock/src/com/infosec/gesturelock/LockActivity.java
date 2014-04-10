@@ -51,7 +51,6 @@ public class LockActivity extends Activity {
 	}
 
 	public void startTestBtn(View view) {
-		Log.d("asdf", "HERE");
 		Intent lockIntent = new Intent(this, StartTestActivity.class);
 		this.startActivity(lockIntent);
 		Log.d("asdf", "MOO");
