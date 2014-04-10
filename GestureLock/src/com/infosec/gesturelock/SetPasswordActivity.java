@@ -1,7 +1,5 @@
 package com.infosec.gesturelock;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -17,7 +15,6 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.infosec.gesturedata.AccelEvent;
 import com.infosec.gesturedata.GestureData;
 
 public class SetPasswordActivity extends Activity implements SensorEventListener{
@@ -61,6 +58,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 			this.setPassInstr.setText("Enter your existing password");
 		}else{
 			this.setPassInstr.setText("Set new gesture password. Press and hold the tacocat button to record your new gesture password.");
+//			this.setPassInstr.setText("Please hold the button below to create your motion lock and let go when you have finished the pattern you desire.");
 		}
 		
 		this.mSensorManager = (SensorManager) getSystemService(SetPasswordActivity.SENSOR_SERVICE);
@@ -84,7 +82,7 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 						btnDown = true;
 						break;
 					case MotionEvent.ACTION_UP:
-						tacocatBtn.setText("tacocat");
+						tacocatBtn.setText("Record Password");
 						tacocatBtn.setBackgroundColor(Color.LTGRAY);
 						btnDown = false;
 						onTacocatRelease();
@@ -105,8 +103,8 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	 
 	@Override
 	protected void onPause() {
-			super.onPause();
-			mSensorManager.unregisterListener(this);
+		super.onPause();
+		mSensorManager.unregisterListener(this);
 	}
 	
 	@Override
