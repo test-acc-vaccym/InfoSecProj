@@ -25,17 +25,6 @@
             android:onClick="lockDeviceBtnPress"
             android:text="Start Test" />
 
-        <Button
-            android:id="@+id/setPassBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/setPassInstruction"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="72dp"
-            android:minWidth="191dip"
-            android:onClick="setPassBtnPress"
-            android:text="&lt;-- Go back" />
-
         <TextView
             android:id="@+id/setPassInstruction"
             android:layout_width="wrap_content"
@@ -51,8 +40,9 @@
             android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginBottom="26dp"
             android:src="@drawable/unlock" />
         
     </RelativeLayout>
