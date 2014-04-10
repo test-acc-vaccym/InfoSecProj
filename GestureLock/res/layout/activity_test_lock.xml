@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
             android:minWidth="191dip"
-            android:onClick="lockDeviceBtnPress"
+            android:onClick="startTestBtn"
             android:text="Start Test" />
 
         <TextView
@@ -34,10 +34,11 @@
             android:layout_below="@+id/lockDeviceBtn"
             android:layout_marginTop="23dp"
             android:text="Press Start Test to practice unlocking with your password."
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000" />
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/lockView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

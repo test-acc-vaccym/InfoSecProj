@@ -40,7 +40,8 @@ public class HomeActivity extends Activity {
 	}
 	
 	public void lockDeviceBtnPress(View view) {
-		
+		Intent lockDeviceIntent = new Intent(this, LockActivity.class);
+		this.startActivity(lockDeviceIntent);
 	}
 
 	public void setPassBtnPress(View view) {

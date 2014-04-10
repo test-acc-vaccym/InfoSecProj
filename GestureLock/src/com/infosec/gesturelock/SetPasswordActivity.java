@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.infosec.gesturedata.AccelEvent;
 import com.infosec.gesturedata.GestureData;
-import com.infosec.gesturedata.Point;
 
 public class SetPasswordActivity extends Activity implements SensorEventListener{
 	private GestureData gestureDataSampleOne = null;
@@ -27,10 +26,6 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 	
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
-//	private Sensor mGravity;
-//	private Sensor mMagnetometer;
-//	private Sensor mGyroscope;
-	
 	
 	static final float ALPHA = 0.25f;
 	
@@ -93,7 +88,6 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 					case MotionEvent.ACTION_DOWN:
 						tacocatBtn.setText("Accessing Accelerometer");
 						tacocatBtn.setBackgroundColor(Color.RED);
-//						gestureDataSampleOne.data.clear();
 						btnDown = true;
 						break;
 					case MotionEvent.ACTION_UP:
@@ -135,10 +129,8 @@ public class SetPasswordActivity extends Activity implements SensorEventListener
 
 					if(!firstSampleCompleted){
 						this.gestureDataSampleOne.accelerometerParser(mAcceleration);
-//						this.gestureDataSampleOne.accelerometerParser(event.values.clone());
 					}else{
-						this.gestureDataSampleTwo.accelerometerParser(mAcceleration);
-//						this.gestureDataSampleTwo.accelerometerParser(event.values.clone());						
+						this.gestureDataSampleTwo.accelerometerParser(mAcceleration);						
 					}
 				}
 				
