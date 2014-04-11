@@ -7,24 +7,12 @@
     android:columnCount="1"
     tools:context="com.infosec.gesturelock.HomeActivity" >
 
-    <RelativeLayout
-        android:id="@+id/main_buttons"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageDisplayView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="fill_horizontal"
-        android:background="@color/black_overlay"
-        android:paddingLeft="6dp" >
-
-     <ImageView
-         android:id="@+id/imageDisplayView"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_alignParentLeft="true"
-         android:layout_alignParentRight="true"
-         android:layout_alignParentTop="true"
-         android:contentDescription="@string/defaultDescription"
-         android:src="@drawable/lockscreen" />
-        
-    </RelativeLayout>
+        android:layout_gravity="left"
+        android:contentDescription="@string/defaultDescription"
+        android:src="@drawable/lockscreen" />
 
 </GridLayout>
