@@ -40,14 +40,14 @@ public class GestureData implements Serializable{
 			// insert
 			insertDirection(direction.LEFT);
 			
-		}else if((input[1]*100 >= 41.0f) && !forward){
+		}else if((input[1]*100 >= 42.0f) && !forward){
 			// Forward
 			resetBool();
 			this.forward = true;
 			// insert
 			insertDirection(direction.FORWARD);
 			
-		}else if((input[1]*100 <= -41.0f) && !backward){
+		}else if((input[1]*100 <= -42.0f) && !backward){
 			// Backward
 			resetBool();
 			this.backward = true;
